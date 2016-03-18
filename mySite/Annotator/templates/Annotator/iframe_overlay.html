@@ -1,0 +1,27 @@
+{% extends "MCBase/base.html" %}
+{% load staticfiles %}
+
+{% block javascript %}
+  <link rel="stylesheet" href="{% static 'MCBase/js/jquery-ui-1.11.4.custom/jquery-ui.css' %}">
+  <link rel="stylesheet" href="{% static 'Annotator/css/index.css' %}">
+  <script type="text/javascript" src="{% static 'Annotator/js/overlay_iframe.js' %}"></script>
+  <script type="text/javascript" src="{% static 'Annotator/js/pdf.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'Annotator/js/ui_utils.js' %}"></script>
+{% endblock %}
+
+{% block title %}
+  mcatDB
+{% endblock %}
+
+{% block body_block %}
+  <div class="content">
+
+
+    <div id="pdfContainer" class="pdf-content">
+      <div class="box">
+        <canvas id="the-canvas"></canvas>
+      </div>
+    </div>
+
+  </div>
+{% endblock %}

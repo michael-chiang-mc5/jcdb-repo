@@ -1,0 +1,11 @@
+# http://stackoverflow.com/questions/6028327/overlay-image-above-embedded-pdf
+# http://stackoverflow.com/questions/593176/div-layer-on-top-of-pdf
+# http://googlesystem.blogspot.com/2009/09/embeddable-google-document-viewer.html
+
+from wand.image import Image
+from wand.image import Color
+
+with Image(filename='/Users/michaelchiang/Desktop/deleteME/Science-2015-Lake-1332-8.pdf', resolution=200) as img:
+    img.background_color = Color("white")
+    img.alpha_channel = False
+    img.save(filename='/Users/michaelchiang/Desktop/deleteME/image.png')

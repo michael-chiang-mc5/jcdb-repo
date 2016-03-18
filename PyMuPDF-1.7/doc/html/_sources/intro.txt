@@ -1,0 +1,41 @@
+=============
+Introduction
+=============
+**PyMuPDF** (formerly known as python-fitz) is a Python binding for `MuPDF <http://www.mupdf.com/>`_ - "a lightweight PDF and XPS viewer".
+
+MuPDF can access files in PDF, XPS, OpenXPS, CBZ (comic book) and EPUB (e-book) formats.
+
+These are files with extensions ``*.pdf``, ``*.xps``, ``*.oxps``, ``*.cbz`` or ``*.epub`` (so in essence, with this binding you can develop **e-book viewers in Python** ...)
+
+PyMuPDF provides access to all important functions of MuPDF from within a Python environment. Nevertheless, we are continuously expanding this function set.
+
+MuPDF stands out among all similar products for its top rendering capability and unsurpassed processing speed.
+
+You can check this out yourself:
+Compare the various free PDF-viewers. In terms of speed and rendering quality `SumatraPDF <http://www.sumatrapdfreader.org/>`_ ranges at the top (apart from MuPDF's own standalone viewer) - and it is based on  MuPDF!
+
+While PyMuPDF has been available since several years for an earlier version of MuPDF (1.2), it was until only mid May 2015, that its creator and a few co-workers decided to elevate it to support the current release of MuPDF (1.7a).
+
+And we are determined to keep PyMuPDF current with future MuPDF changes!
+
+This work is now completed.
+
+PyMuPDF has been tested on Linux, Windows 7 and up, Python 2 and Python 3 (x86 versions). Other platforms should work too as long as MuPDF supports them.
+
+The main differences compared to version 1.2 are
+
+* A greatly simplified installation procedure: For Windows and Linux platforms it should come down to running the ``python setup.py install`` command.
+
+* The API has changed: it is now simpler and a lot less cryptic.
+
+* The supported function set has been significantly increased: apart from rendering, MuPDF's traditional strength, we now also offer a wide range of text extraction options.
+
+* Demo code has been extended, and an additional ``examples`` directory is there to contain working programs. Among them are an editor for a document's table of contents, a full featured document joiner and a document-to-text conversion utility.
+
+We invite you to join our efforts by contributing to the the wiki pages, by using what is there - and, of course, by submitting issues and bugs to the site!
+
+Note on the Name ``fitz``
+--------------------------
+The Python import statement for this library is ``import fitz``. Here is the reason why:
+
+The original rendering library for MuPDF was called ``Libart``. "After Artifex Software acquired the MuPDF project, the development focus shifted on writing a new modern graphics library called ``Fitz``. Fitz was originally intended as an R&D project to replace the aging Ghostscript graphics library, but has instead become the rendering engine powering MuPDF." (Quoted from `Wikipedia <https://en.wikipedia.org/wiki/MuPDF>`_).

@@ -1,0 +1,32 @@
+.. raw:: pdf
+
+    PageBreak
+
+.. _Colorspace:
+
+================
+Colorspace
+================
+
+Represents the color space of a :ref:`Pixmap`.
+
+
+**Class API**
+
+.. class:: Colorspace
+
+   .. method:: __init__(self, colorspace, irect)
+
+      Constructor
+
+   .. attribute:: colorspace
+
+      A number identifying the colorspace. Supported colorspaces are :data:`CS_RGB`, :data:`CS_GRAY` and :data:`CS_CMYK`.
+
+      :type: int
+
+   .. attribute:: irect
+
+      A :ref:`IRect` object representing the area of the image.
+
+      :type: instance

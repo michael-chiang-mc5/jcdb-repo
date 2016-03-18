@@ -1,0 +1,8 @@
+venv/
+mySite/mySite/secret_keys_and_passwords.py
+.DS_Store
+*.pyc
+__pycache__
+migrations/
+db.sqlite3
+media/*

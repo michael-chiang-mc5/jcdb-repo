@@ -1,0 +1,11 @@
+<!-- hidden form  -->
+<form action="{% url 'Uploader:upload' %}?next={{ request.path }}" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <p>max. 42 megabytes</p>
+  <p>
+    <input id="id_docfile" name="docfile" type="file" />
+  </p>
+  <p>
+    <input type="submit" value="Upload" />
+  </p>
+</form>

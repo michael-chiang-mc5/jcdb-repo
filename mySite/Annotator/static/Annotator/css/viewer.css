@@ -1,0 +1,21 @@
+
+
+
+.asdf {
+    background-color:#aaa;
+    padding: 4px;
+    text-align: left;
+    position:absolute;
+}
+
+
+.pdf-content {
+    border: 1px solid #000000;
+    display: inline-block;
+
+}
+
+.content {
+  width: 100%;
+  text-align: center;
+}

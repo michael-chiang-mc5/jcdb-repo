@@ -1,0 +1,37 @@
+{% extends "MCBase/base.html" %}
+{% load staticfiles %}
+
+{% block javascript %}
+  <link rel="stylesheet" href="{% static 'Uploader/css/list.css' %}">
+{% endblock %}
+
+{% block title %}
+  Uploader
+{% endblock %}
+
+
+
+{% block body_block %}
+
+  <!-- form to upload file -->
+  {% include "Uploader/uploadForm.html" %}
+  <hr >
+
+  <!-- display previously loaded files -->
+  {% if documents %}
+      <ul>
+      {% for document in documents %}
+          <li>
+            {{ document.time }}
+            &nbsp; &nbsp; &nbsp;
+            <a href="{{ document.docfile.url }}">{{ document.docfile.name }}</a>
+            &nbsp; &nbsp; &nbsp;
+            <a class="delete_link" href="{% url 'Uploader:delete' document.pk %}">delete</a>
+          </li>
+      {% endfor %}
+      </ul>
+  {% else %}
+      <p>No documents.</p>
+  {% endif %}
+
+{% endblock %}
