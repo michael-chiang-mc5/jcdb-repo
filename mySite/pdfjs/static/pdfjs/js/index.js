@@ -3,7 +3,10 @@
 $(document).ready(function() {
 
 
-  $('*').dblclick(function (e) {
+  $('*').off().dblclick(function (e) {
+  //$('*').one("dblclick",function (e) {
+      e.stopImmediatePropagation();
+
       document.title = e.target.tagName + '#' + e.target.id + '.' + e.target.className;
       //alert(e.target.tagName + '#' + e.target.id + '.' + e.target.className)
 
