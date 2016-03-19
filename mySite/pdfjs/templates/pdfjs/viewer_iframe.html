@@ -13,6 +13,19 @@
 
 
 {% block body_block %}
-  <iframe frameborder="0" style="height: 90%; overflow:hidden; width: 100%" src="{% url 'pdfjs:viewer_raw' document_pk %}" marginheight="1" marginwidth="1" name="cboxmain" id="cboxmain" seamless="seamless" scrolling="no" frameborder="0" allowtransparency="true">
-  </iframe>
+<table>
+
+<!-- trigger events across iframes -->
+<!-- http://stackoverflow.com/questions/7228708/trigger-from-iframe-to-sibling-iframe -->
+<!-- http://stackoverflow.com/questions/6697364/triggering-a-jquery-event-from-iframe -->
+
+<div class="box1">
+    <iframe style="height: 90%; width: 100%" src="{% url 'pdfjs:viewer_raw' document_pk %}">
+    </iframe>
+</div>
+<div class="box2">
+    <iframe style="height: 90%; width: 100%" src="{% url 'pdfjs:index' %}">
+    </iframe></td>
+</div>
+
 {% endblock %}

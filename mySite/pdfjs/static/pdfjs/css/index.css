@@ -12,6 +12,15 @@
 .navbar {
   margin-bottom: 0;
 }
+.box1{
+    width:70%;
+    float:left;
+}
+.box2{
+    width:30%;
+    float:left;
+}
+
 
 textarea {
   background-color: rgba(215, 218, 47, 0.8);

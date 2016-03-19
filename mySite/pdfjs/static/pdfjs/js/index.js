@@ -1,4 +1,13 @@
 
+$(document).ready(function() {
+  $('*').dblclick(function (e) {
+    var frames = window.parent.frames;
+    frames[1].document.body.style.backgroundColor = "red";
+    frames[1].abc();
+
+  });
+});
+
 window.notes=0;
 
 function createNote() {
@@ -56,7 +65,7 @@ $(document).ready(function() {
 
 
 // note form submission via ajax
-// TODO: also update note element
+// TODO: also update note element, note global variable via ajax
 // https://scotch.io/tutorials/submitting-ajax-forms-with-jquery
 $(document).ready(function() {
     // process the form
