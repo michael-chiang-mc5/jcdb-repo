@@ -31,8 +31,30 @@ def viewer_notes(request,document_pk):
     context = {'document_pk':document_pk,"notes":notes}
     return render(request, 'pdfjs/viewer_notes.html', context)
 
-
-
+# serializes notes to JsonResponse
+# This view is called when client wants to update knowledge of note database
+def getNotesJson(request,document_pk):
+    document = Document.objects.get(pk=document_pk)
+    notes = Note.objects.filter(document=document)
+    json_obj = []
+    for note in notes:
+        notetexts = note.notetext_set.all() # TODO: sort by time
+        note_text = []
+        for notetext in notetexts:
+            obj2 = {'user':notetext.user.username,
+                    'time':notetext.time,
+                    'text':notetext.text,
+                    }
+            note_text.append(obj2)
+        obj =   {'page_number':note.page_number,
+                'x_normalized_position':note.x_normalized_position,
+                'y_normalized_position':note.y_normalized_position,
+                'width':note.width,
+                'height':note.height,
+                'note_text':note_text,
+                }
+        json_obj.append(obj)
+    return JsonResponse(json_obj, safe=False)
 
 def replyNote(request):
     if request.method == 'POST':
