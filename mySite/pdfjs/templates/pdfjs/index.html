@@ -24,12 +24,30 @@ Example note: <br /> <br />
   <input type="hidden" name="y_normalized" value="4" />
   <input type="hidden" name="width" value="3" />
   <input type="hidden" name="height" value="4" />
-
-
   <textarea name="form_text" cols="10" rows="5"></textarea>
   <br />
 </form>
 <button class="submit-previous-form">submit</button>
 </div>
+
+
+<br /><br /><br />
+<br /><br /><br />
+<br /><br /><br />
+
+<div>
+  Notes:
+  {% for note in notes %}
+    {{ note }}
+  {% endfor %}
+</div>
+
+<div>
+  note texts:
+  {% for noteText in noteTexts %}
+    {{ noteText }}
+  {% endfor %}
+</div>
+
 
 {% endblock %}
