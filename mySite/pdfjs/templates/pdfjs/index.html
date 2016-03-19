@@ -1,1 +1,35 @@
-hi
+{% extends "MCBase/base.html" %}
+{% load staticfiles %}
+
+{% block javascript %}
+  <link rel="stylesheet" href="{% static 'pdfjs/css/index.css' %}">
+  <script type="text/javascript" src="{% static 'pdfjs/js/index.js' %}"></script>
+
+{% endblock %}
+
+{% block title %}
+{% endblock %}
+
+
+
+{% block body_block %}
+Example note: <br /> <br />
+
+<div class="note">
+<form role="form" action="{% url 'pdfjs:addNote' %}" method=POST>
+  {% csrf_token %}
+  <input type="hidden" name="document_pk" value="2" />
+  <input type="hidden" name="page_number" value="1" />
+  <input type="hidden" name="x_normalized" value="3" />
+  <input type="hidden" name="y_normalized" value="4" />
+  <input type="hidden" name="width" value="3" />
+  <input type="hidden" name="height" value="4" />
+
+
+  <textarea name="form_text" cols="10" rows="5"></textarea>
+  <br />
+</form>
+<button class="submit-previous-form">submit</button>
+</div>
+
+{% endblock %}

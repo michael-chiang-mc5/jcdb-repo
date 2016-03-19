@@ -2,18 +2,6 @@
 
 $(document).ready(function() {
 
-  /*
-  $('*').dblclick(function (e) {
-      e.stopImmediatePropagation();
-      document.title = e.target.tagName + '#' + e.target.id + '.' + e.target.className;
-      var asdf = $(e.target)
-      alert(asdf.attr("class"))
-      var asdf2 = asdf.closest(".page")
-      alert("closest="+asdf2.attr("id"))
-
-  });
-  */
-
   $('*').dblclick(function (e) {
 
     // Only process first event
@@ -36,8 +24,7 @@ $(document).ready(function() {
 
       // place note
       div_txt=''+
-      '<div class="asdf">' +
-      '    asdf<br />' +
+      '<div class="note">' +
       '    <textarea name="ta" id="ta" cols="10" rows="5"></textarea>' +
       '    <br />' +
       '    <input type="submit" value="submit"/>' +
@@ -53,40 +40,33 @@ $(document).ready(function() {
 
   });
 
+});
 
 
 
+// form submission via ajax
+//  https://scotch.io/tutorials/submitting-ajax-forms-with-jquery
+$(document).ready(function() {
 
-  // Create note
-  $(".asdf").dblclick(function(e) {
+    // process the form
+    $(".submit-previous-form").click(function() {
+      var f = $(this).prev('form');
+      var url = f.attr( 'action' );
+      alert(url)
 
-    var p = $(this).closest(".page")
-    alert(p.attr(""))
+      // process the form
+      $.ajax({
+        type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+        url         : url, // the url where we want to POST
+        data        : f.serialize(), // our data object
+        dataType    : 'json', // what type of data do we expect back from the server
+                    encode          : true
+      }).done(function(data) {
+        alert(data.document_pk)
+      });
 
-    // Get mouse click coordinates
-    var offset = $(this).offset();
-    var x = e.pageX - offset.left;
-    var y = e.pageY - offset.top;
-
-    alert("x="+x+",y="+y)
-
-
-    div_txt=''+
-    '<div class="asdf">' +
-    '    asdf<br />' +
-    '    <textarea name="ta" id="ta" cols="10" rows="5"></textarea>' +
-    '    <br />' +
-    '    <input type="submit" value="submit"/>' +
-    '</div>'
-
-    var d = $(div_txt);
-    $(this).append(d)
-    d.css({top: y, left: x });
-    d.draggable()
-  });
-
-  // TODO: remove empty notes
-
-
+      // stop the form from submitting the normal way and refreshing the page
+      event.preventDefault();
+    });
 
 });
