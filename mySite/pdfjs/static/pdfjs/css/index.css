@@ -1,0 +1,12 @@
+.asdf {
+  z-index: 200000;
+  position: absolute;
+}
+
+.pdfViewer{
+  z-index: 0;
+}
+
+.page {
+  z-index: 0;
+}

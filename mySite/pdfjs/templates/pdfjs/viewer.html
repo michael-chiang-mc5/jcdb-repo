@@ -1,7 +1,3 @@
-{% load staticfiles %}
-
-
-﻿<!DOCTYPE html>
 <!--
 Copyright 2012 Mozilla Foundation
 
@@ -23,32 +19,29 @@ Adobe CMap resources are covered by their own copyright but the same license:
 
 See https://github.com/adobe-type-tools/cmap-resources
 -->
-<html dir="ltr" mozdisallowselectionprint moznomarginboxes>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="google" content="notranslate">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>PDF.js viewer</title>
 
+{% extends "MCBase/base.html" %}
+{% load staticfiles %}
+{% load MCBase_templatetags %}
 
-    <link rel="stylesheet" href="{% static 'pdfjs/css/viewer.css' %}"/>
+{% block javascript %}
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"> <!-- this is different from base.html -->
+  <link rel="stylesheet" href="{% static 'pdfjs/css/viewer.css' %}"/>
+  <script src="{% static 'pdfjs/js/compatibility.js' %}"></script>
+  <!-- This snippet is used in production (included from viewer.html) -->
+  <link rel="resource" type="application/l10n" href="/static/pdfjs/locale/locale.properties"/>
+  <script src="{% static 'pdfjs/js/l10n.js' %}"></script>
+  <script src="{% static 'pdfjs/js/pdf.js' %}"></script>
+  <script src="{% static 'pdfjs/js/debugger.js' %}"></script>
+  <script src="{% static 'pdfjs/js/viewer.js' %}"></script>
 
-    <script src="{% static 'pdfjs/js/compatibility.js' %}"></script>
+  <!-- annotation interface -->
+  <link rel="stylesheet" href="{% static 'pdfjs/css/index.css' %}"/>
+  <script type="text/javascript" src="{% static 'pdfjs/js/index.js' %}"></script>
+{% endblock %}
 
+{% block body_block %}
 
-
-<!-- This snippet is used in production (included from viewer.html) -->
-<link rel="resource" type="application/l10n" href="/static/pdfjs/locale/locale.properties"/>
-<script src="{% static 'pdfjs/js/l10n.js' %}"></script>
-<script src="{% static 'pdfjs/js/pdf.js' %}"></script>
-
-
-
-    <script src="{% static 'pdfjs/js/debugger.js' %}"></script>
-    <script src="{% static 'pdfjs/js/viewer.js' %}"></script>
-
-  </head>
 
   <body tabindex="1" class="loadingInProgress">
     <div id="outerContainer">
@@ -422,4 +415,4 @@ See https://github.com/adobe-type-tools/cmap-resources
 </div>
 
   </body>
-</html>
+  {% endblock %}
