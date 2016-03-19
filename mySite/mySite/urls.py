@@ -27,6 +27,7 @@ urlpatterns = [
     url('', include('myContent.urls', namespace='myContent')),
     url(r'^Uploader/', include('Uploader.urls', namespace='Uploader')),
     url(r'^Annotator/', include('Annotator.urls', namespace='Annotator')),
+    url(r'^pdfjs/', include('pdfjs.urls', namespace='pdfjs')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # TODO: disable this in production
 
 
