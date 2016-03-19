@@ -1,0 +1,44 @@
+{% load staticfiles %}
+{% load MCBase_templatetags %}
+
+<html>
+
+  <head>
+    <script src="{% static 'MCBase/js/jquery-2.1.4.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'pdfjs/css/viewer_notes.css' %}"/>
+    <script src="{% static 'pdfjs/js/viewer_notes.js' %}"></script>
+  </head>
+
+
+  <body>
+    {% for note in notes %}
+      <div class="note">
+        {% for notetext in note.notetext_set.all %}
+          {% if forloop.counter == 1 %}
+            {{ notetext.text }} <br />
+            <div class="signature">
+              --{{ notetext.user.username }}, {{ notetext.time|age }}
+            </div>
+          {% else %}
+            <div class="not-first-post">
+              {{ notetext.text }}
+              <div class="signature">
+                --{{ notetext.user.username }}, {{ notetext.time|age }}
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+        <a href=".">reply</a>
+        <div>
+          <form role="form" action="{% url 'pdfjs:replyNote' %}" method=POST>
+            {% csrf_token %}
+            <input type="hidden" name="note_pk" value="{{ note.pk }}" />
+            <textarea name="form_text" cols="10" rows="5"></textarea>
+            <br />
+          </form>
+          <button class="submit-previous-form">submit</button>
+        </div>
+      </div>
+    {% endfor %}
+  </body>
+</html>

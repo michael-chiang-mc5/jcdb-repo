@@ -2,7 +2,21 @@ from django.template import Library
 from MCBase.config_navbar import *
 import re
 from django.core.urlresolvers import reverse, NoReverseMatch
+from datetime import datetime, timedelta, timezone
+from django.utils.timesince import timesince
 register = Library()
+
+@register.filter
+def age(value):
+    now = datetime.now(timezone.utc)
+    try:
+        difference = now - value
+    except:
+        return "qwer"
+        return value
+    if difference <= timedelta(minutes=1):
+        return 'just now'
+    return '%(time)s ago' % {'time': timesince(value).split(', ')[0]}
 
 # Returns a list containing range made from given value
 # Usage (in template): {% for i in 3|get_range %}

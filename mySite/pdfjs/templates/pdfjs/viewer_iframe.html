@@ -2,12 +2,12 @@
 {% load staticfiles %}
 
 {% block javascript %}
-  <link rel="stylesheet" href="{% static 'pdfjs/css/index.css' %}">
+  <link rel="stylesheet" href="{% static 'pdfjs/css/viewer_iframe.css' %}">
 
 {% endblock %}
 
 {% block title %}
-  Uploader
+  jcdb
 {% endblock %}
 
 
@@ -24,7 +24,7 @@
     </iframe>
 </div>
 <div class="box2">
-    <iframe style="height: 90%; width: 100%" src="{% url 'pdfjs:index' %}">
+    <iframe style="height: 90%; width: 100%" src="{% url 'pdfjs:viewer_notes' document_pk %}">
     </iframe></td>
 </div>
 
