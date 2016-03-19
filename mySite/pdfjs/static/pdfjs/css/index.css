@@ -3,10 +3,7 @@
   position: absolute;
 }
 
-.pdfViewer{
-  z-index: 0;
-}
 
 .page {
-  z-index: 0;
+  z-index: 100000  !important;
 }

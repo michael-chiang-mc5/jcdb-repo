@@ -2,11 +2,26 @@
 
 $(document).ready(function() {
 
+
+  $('*').dblclick(function (e) {
+      document.title = e.target.tagName + '#' + e.target.id + '.' + e.target.className;
+      //alert(e.target.tagName + '#' + e.target.id + '.' + e.target.className)
+
+      var asdf = $(e.target)
+      alert(asdf.attr("class"))
+      var asdf2 = asdf.closest(".page")
+      alert("clostest="+asdf2.attr("id"))
+
+  });
+
   alert("ready")
 
 
   // Create note
-  $("#viewer").dblclick(function(e) {
+  $(".asdf").dblclick(function(e) {
+
+    var p = $(this).closest(".page")
+    alert(p.attr(""))
 
     // Get mouse click coordinates
     var offset = $(this).offset();
