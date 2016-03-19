@@ -64,6 +64,13 @@ See https://github.com/adobe-type-tools/cmap-resources
   </head>
 
   <body tabindex="1" class="loadingInProgress">
+
+    {% for note in notes %}
+      <script>
+        createNote({{note.page_number}},{{note.x_normalized_position}},{{note.y_normalized_position}},{{note.width}},{{note.height}});
+      </script>
+    {% endfor %}
+
     <div id="outerContainer">
 
       <div id="sidebarContainer">

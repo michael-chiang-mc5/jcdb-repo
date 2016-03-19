@@ -1,5 +1,34 @@
 
 
+function createNote(page_number, x_normalized, y_normalized, width, height) {
+  var page = $("#pageContainer"+page_number)
+  div_txt=''+
+  '<div class="note">' +
+  '    <textarea name="ta" id="ta" cols="10" rows="5"></textarea>' +
+  '    <br />' +
+  '    <input type="submit" value="submit"/>' +
+  '</div>'
+  var d = $(div_txt);
+}
+
+// On page rendering, re-render notes
+// https://github.com/mozilla/pdf.js/issues/5601
+$(document).bind('pagerendered', function (e) {
+  console.log(e.originalEvent.detail.pageNumber); // which page is rendered
+
+});
+
+// remove all saved notes on page=page_number
+
+
+// render all saved notes on page=page_number
+function renderNotes(page_number) {
+
+}
+
+// remove all unsaved notes
+
+
 $(document).ready(function() {
 
   $('*').dblclick(function (e) {

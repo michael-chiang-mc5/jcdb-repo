@@ -18,7 +18,9 @@ def viewer(request,document_pk):
 def viewer_raw(request,document_pk):
     document = Document.objects.get(pk=document_pk)
     pdf_url = settings.MEDIA_URL + document.docfile.name
-    context = {'pdf_url':pdf_url,'document_pk':document_pk}
+    notes = Note.objects.filter(document=document)
+
+    context = {'pdf_url':pdf_url,'document_pk':document_pk,"notes":notes}
     return render(request, 'pdfjs/viewer_original.html', context)
 
 def addNote(request):
