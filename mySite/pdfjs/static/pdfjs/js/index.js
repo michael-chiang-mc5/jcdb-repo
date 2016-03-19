@@ -1,21 +1,15 @@
 
+window.notes=0;
 
-function createNote(page_number, x_normalized, y_normalized, width, height) {
-  var page = $("#pageContainer"+page_number)
-  div_txt=''+
-  '<div class="note">' +
-  '    <textarea name="ta" id="ta" cols="10" rows="5"></textarea>' +
-  '    <br />' +
-  '    <input type="submit" value="submit"/>' +
-  '</div>'
-  var d = $(div_txt);
+function createNote() {
 }
 
 // On page rendering, re-render notes
 // https://github.com/mozilla/pdf.js/issues/5601
 $(document).bind('pagerendered', function (e) {
-  console.log(e.originalEvent.detail.pageNumber); // which page is rendered
-
+  page_number = e.originalEvent.detail.pageNumber;
+  console.log(page_number); // which page is rendered
+  renderNotes(page_number);
 });
 
 // remove all saved notes on page=page_number
@@ -23,19 +17,15 @@ $(document).bind('pagerendered', function (e) {
 
 // render all saved notes on page=page_number
 function renderNotes(page_number) {
-
+  console.log(notes);
 }
 
-// remove all unsaved notes
-
-
+// On double click, place a note element on the page. This note can submit a
+// post form
 $(document).ready(function() {
-
   $('*').dblclick(function (e) {
-
     // Only process first event
     e.stopImmediatePropagation();
-
     // check if we are clicking on a page
     var closest_page_id = $(e.target).closest(".page").attr("id")
     if(typeof closest_page_id != 'undefined') {
@@ -48,9 +38,6 @@ $(document).ready(function() {
       var page_height = page.height()
       var x_normalized = x/page_width;
       var y_normalized = y/page_height;
-      //alert("x="+x+",y="+y+", id="+closest_page_id+", pagewidth="+page_width+", pageheight="+page_height)
-      //alert("x="+x_normalized+",y="+y_normalized+", id="+closest_page_id)
-
       // place note
       div_txt=''+
       '<div class="note">' +
@@ -62,27 +49,20 @@ $(document).ready(function() {
       page.append(d)
       d.css({top: y, left: x });
       d.draggable()
-
     }
-
-
-
   });
-
 });
 
 
 
-// form submission via ajax
-//  https://scotch.io/tutorials/submitting-ajax-forms-with-jquery
+// note form submission via ajax
+// TODO: also update note element
+// https://scotch.io/tutorials/submitting-ajax-forms-with-jquery
 $(document).ready(function() {
-
     // process the form
     $(".submit-previous-form").click(function() {
       var f = $(this).prev('form');
       var url = f.attr( 'action' );
-      alert(url)
-
       // process the form
       $.ajax({
         type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
@@ -93,9 +73,7 @@ $(document).ready(function() {
       }).done(function(data) {
         alert(data.document_pk)
       });
-
       // stop the form from submitting the normal way and refreshing the page
       event.preventDefault();
     });
-
 });

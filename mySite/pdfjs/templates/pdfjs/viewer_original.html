@@ -65,11 +65,12 @@ See https://github.com/adobe-type-tools/cmap-resources
 
   <body tabindex="1" class="loadingInProgress">
 
-    {% for note in notes %}
-      <script>
-        createNote({{note.page_number}},{{note.x_normalized_position}},{{note.y_normalized_position}},{{note.width}},{{note.height}});
-      </script>
-    {% endfor %}
+    <!-- notes should be a jquery array of note data. Use an array of strings -->
+    <script type='text/javascript'>
+      var note1 = {x:2, y:3, text:["text1","text2"]};
+      var note2 = {x:4, y:5, text:["text1"]};
+      notes = [note1,note2];
+    </script>
 
     <div id="outerContainer">
 
