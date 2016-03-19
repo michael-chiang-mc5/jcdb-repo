@@ -1,3 +1,7 @@
+{% load staticfiles %}
+<!-- added annotation js -->
+
+<!DOCTYPE html>
 <!--
 Copyright 2012 Mozilla Foundation
 
@@ -19,29 +23,45 @@ Adobe CMap resources are covered by their own copyright but the same license:
 
 See https://github.com/adobe-type-tools/cmap-resources
 -->
+<html dir="ltr" mozdisallowselectionprint moznomarginboxes>
+  <head>
 
-{% extends "MCBase/base-extended.html" %}
-{% load staticfiles %}
-{% load MCBase_templatetags %}
+    <!-- hacked in javascript -->
+    <script src="{% static 'MCBase/js/jquery-2.1.4.min.js' %}"></script>
+    <script src="{% static 'MCBase/js/jquery-ui-1.11.4.custom/jquery-ui.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'MCBase/js/jquery-ui-1.11.4.custom/jquery-ui.css' %}">
+    <script type="text/javascript" src="{% static 'pdfjs/js/index.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'pdfjs/css/index.css' %}"/>
+    <script>
+      pdf_url = "{{ pdf_url }}"
+    </script>
 
-{% block javascript %}
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"> <!-- this is different from base.html -->
-  <link rel="stylesheet" href="{% static 'pdfjs/css/viewer.css' %}"/>
-  <script src="{% static 'pdfjs/js/compatibility.js' %}"></script>
-  <!-- This snippet is used in production (included from viewer.html) -->
-  <link rel="resource" type="application/l10n" href="/static/pdfjs/locale/locale.properties"/>
-  <script src="{% static 'pdfjs/js/l10n.js' %}"></script>
-  <script src="{% static 'pdfjs/js/pdf.js' %}"></script>
-  <script src="{% static 'pdfjs/js/debugger.js' %}"></script>
-  <script src="{% static 'pdfjs/js/viewer.js' %}"></script>
 
-  <!-- annotation interface -->
-  <link rel="stylesheet" href="{% static 'pdfjs/css/index.css' %}"/>
-  <script type="text/javascript" src="{% static 'pdfjs/js/index.js' %}"></script>
-{% endblock %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="google" content="notranslate">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>PDF.js viewer</title>
 
-{% block body_block %}
 
+    <link rel="stylesheet" href="{% static 'pdfjs/css/viewer.css' %}"/>
+
+    <script src="{% static 'pdfjs/js/compatibility.js' %}"></script>
+
+
+
+
+<!-- This snippet is used in production (included from viewer.html) -->
+<link rel="resource" type="application/l10n" href="{% static 'pdfjs/locale/locale.properties' %}"/>
+<script src="{% static 'pdfjs/js/l10n.js' %}"></script>
+<script src="{% static 'pdfjs/js/pdf.js' %}"></script>
+
+
+
+    <script src="{% static 'pdfjs/js/debugger.js' %}"></script>
+    <script src="{% static 'pdfjs/js/viewer.js' %}"></script>
+
+  </head>
 
   <body tabindex="1" class="loadingInProgress">
     <div id="outerContainer">
@@ -415,4 +435,4 @@ See https://github.com/adobe-type-tools/cmap-resources
 </div>
 
   </body>
-  {% endblock %}
+</html>

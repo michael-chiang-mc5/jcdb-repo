@@ -1,9 +1,14 @@
+/* for viewer_original.html */
 .asdf {
   z-index: 200000;
   position: absolute;
+  background-color: red;
 }
-
-
 .page {
   z-index: 100000  !important;
+}
+
+/* for viewer_iframe.html */
+.navbar {
+  margin-bottom: 0;
 }
