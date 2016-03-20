@@ -25,25 +25,27 @@ class Note(models.Model):
         notes = Note.objects.filter(document=document)
         json_obj = []
         for note in notes:
-            notetexts = note.notetext_set.all() # TODO: sort by time
-            note_text = []
-            for notetext in notetexts:
-                obj2 = {'user':notetext.user.username,
-                        'time':notetext.time.strftime('%m-%d-%Y'),
-                        'text':notetext.text,
-                        }
-                note_text.append(obj2)
-            obj =   {'pk':note.pk,
-                    'page_number':note.page_number,
-                    'x_normalized_position':note.x_normalized_position,
-                    'y_normalized_position':note.y_normalized_position,
-                    'width':note.width,
-                    'height':note.height,
-                    'note_text':note_text,
-                    }
+            obj = Note.getNoteJson(note)
             json_obj.append(obj)
         return json_obj
-
+    def getNoteJson(note):
+        notetexts = note.notetext_set.all() # TODO: sort by time
+        note_text = []
+        for notetext in notetexts:
+            obj2 = {'user':notetext.user.username,
+                    'time':notetext.time.strftime('%m-%d-%Y'),
+                    'text':notetext.text,
+                    }
+            note_text.append(obj2)
+        obj =   {'pk':note.pk,
+                'page_number':note.page_number,
+                'x_normalized_position':note.x_normalized_position,
+                'y_normalized_position':note.y_normalized_position,
+                'width':note.width,
+                'height':note.height,
+                'note_text':note_text,
+                }
+        return obj
 
 class NoteText(models.Model):
     user = models.ForeignKey(User)

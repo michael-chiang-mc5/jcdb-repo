@@ -24,7 +24,7 @@ def viewer_raw(request,document_pk):
     #getnotesjson_url = reverse('pdfjs:getNotesJson', args=[document_pk]) # deprecate
     notes_json = Note.getNotesJson(document_pk)
     #context = {'pdf_url':pdf_url,'addnote_url':addnote_url,'getnotesjson_url':getnotesjson_url,'notes_json':notes_json,'document_pk':document_pk}
-    context = {'pdf_url':pdf_url,'addnote_url':addnote_url,'notes_json':notes_json,'document_pk':document_pk}    
+    context = {'pdf_url':pdf_url,'addnote_url':addnote_url,'notes_json':notes_json,'document_pk':document_pk}
     return render(request, 'pdfjs/viewer_original.html', context)
 # View for rendering notes in iframe #2
 def viewer_notes(request,document_pk):
@@ -77,6 +77,7 @@ def replyNote(request):
     response = {}
     return JsonResponse(response)
 
+# return json object representing the note added
 def addNote(request):
     if request.method == 'POST':
         document_pk = request.POST.get("document_pk")
@@ -98,5 +99,6 @@ def addNote(request):
                 height=height,)
     note.save()
     note.addText(user=user,text=form_text)
-    response = {'document_pk':document_pk,}
+    note_obj = Note.getNoteJson(note)
+    response = {'note_obj':note_obj}
     return JsonResponse(response)

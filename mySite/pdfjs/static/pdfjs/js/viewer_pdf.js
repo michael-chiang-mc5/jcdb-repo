@@ -89,9 +89,17 @@ $(document).on('click', '.submit-note', function(){
       data        : f.serialize(), // our data object
       dataType    : 'json', // what type of data do we expect back from the server
                   encode          : true
-    }).done(function(data) {
+    }).done(function(obj) {
+      // remove note editor
       me.parent().remove();
-      getNotesJson();
+      // create note json object
+      note_obj = obj.note_obj
+      // render note
+      renderNote(note_obj)
+      // save note to local db
+      notesDB_global.push(note_obj)
+      // write note to other iframe
+      
     });
   }
   // stop the form from submitting the normal way and refreshing the page
@@ -116,6 +124,8 @@ $(document).on('click', '.zoom-iframe', function(){
 // Usage: notesDB_global[i].note_text[j].text
 //        where i is the ith note, j is th jth comment in the ith note
 window.notesDB_global=0; // global variable for storing database
+
+/* deprecated
 function getNotesJson() {
   // process the form
   $.ajax({
@@ -133,11 +143,15 @@ function getNotesJson() {
     //alert(notes[0].note_text[0].text)
   });
 }
+*/
+
+/* deprecated
 // removes all notes on a given page
 // if page_number == -1, then remove all notes over entire pdf
 function removeNotes(page_number) {
   $(".note-boundary").remove()
 }
+*/
 
 // render all notes on a given page
 // if page_number == -1, then do all notes over entire pdf

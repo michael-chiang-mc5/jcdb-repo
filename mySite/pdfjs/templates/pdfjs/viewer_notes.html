@@ -12,12 +12,13 @@
 
   <body>
     {% for note in notes %}
+      <!-- if you modify, you should also change appendNote() in viewer_notes.js -->
       <div pagenumber="{{ note.page_number }}" id="note{{note.pk}}" class="note">
         {% for notetext in note.notetext_set.all %}
           {% if forloop.counter == 1 %}
             {{ notetext.text }} <br />
             <div class="signature">
-              --{{ notetext.user.username }}, {{ notetext.time|age }}, on page {{ note.page_number }}
+              --{{ notetext.user.username }}, {{ notetext.time|age }}
             </div>
           {% else %}
             <div class="not-first-post">

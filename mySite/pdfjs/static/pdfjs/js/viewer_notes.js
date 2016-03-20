@@ -1,4 +1,4 @@
-// form submission via ajax
+// implements submit button
 // https://scotch.io/tutorials/submitting-ajax-forms-with-jquery
 $(document).ready(function() {
     // process the form
@@ -34,16 +34,15 @@ function zoom(note_pk) {
   }, 600);
 }
 
+// implements zoom button
 function zoom_out(note_pk) {
   var note = $("#note"+note_pk)
   var page_number = note.attr('pagenumber')
-
-  zoom(note_pk);
   var frames = window.parent.frames;
   frames[0].zoom(note_pk,page_number);
 }
 
-
+// implements zoom button
 $(document).ready(function() {
     // process the form
     $(".zoom").click(function() {
@@ -51,3 +50,10 @@ $(document).ready(function() {
       zoom_out(note_pk);
     });
 });
+
+
+// append note in response to note added in pdf iframe
+// note_obj: json object of note
+function appendNote(note_obj) {
+
+}
