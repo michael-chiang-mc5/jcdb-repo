@@ -24,3 +24,25 @@
   font-size: 12px;
   color: grey;
 }
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+textarea {
+  width: 100%;
+}
+
+.note-form {
+  margin: 0;
+}
+
+.note_footer {
+  cursor: pointer;
+  font-size: 11px;
+  color: blue;
+}

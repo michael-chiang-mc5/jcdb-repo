@@ -9,6 +9,16 @@ $(document).ready(function() {
 });
 */
 
+// highlight div
+function zoom(note_pk, page_number) {
+  // first scroll to page in case not loaded
+  $("#pageContainer"+page_number)[0].scrollIntoView(true);
+  // TODO: best to wait if element loaded
+  var note = $('#savednote'+note_pk)
+  note[0].scrollIntoView(true);
+  note.effect("shake", {}, 700);
+}
+
 
 // On page rendering, re-render notes
 // https://github.com/mozilla/pdf.js/issues/5601
@@ -158,7 +168,7 @@ function renderNote(note_obj) {
 
   // create note
   div_txt=''+
-          '<div id="savednote-'+note_obj.pk+'" class="note-boundary">'+
+          '<div pagenumber="'+page_number+'" id="savednote'+note_obj.pk+'" class="note-boundary">'+
             '<div class="resizable">'+
                 note_obj.note_text[0].text+
             '</div>'+

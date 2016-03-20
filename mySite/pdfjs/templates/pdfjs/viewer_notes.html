@@ -12,7 +12,7 @@
 
   <body>
     {% for note in notes %}
-      <div id="note{{note.pk}}" class="note">
+      <div pagenumber="{{ note.page_number }}" id="note{{note.pk}}" class="note">
         {% for notetext in note.notetext_set.all %}
           {% if forloop.counter == 1 %}
             {{ notetext.text }} <br />
@@ -28,13 +28,15 @@
             </div>
           {% endif %}
         {% endfor %}
-        <a href=".">reply</a>
         <div>
-          <form role="form" action="{% url 'pdfjs:replyNote' %}" method=POST>
+          <a notepk="{{note.pk}}" class="note_footer zoom left">zoom</a>
+          <a class="note_footer right">reply</a>
+        </div>
+        <div>
+          <form class="note-form" role="form" action="{% url 'pdfjs:replyNote' %}" method=POST>
             {% csrf_token %}
             <input type="hidden" name="note_pk" value="{{ note.pk }}" />
             <textarea name="form_text" cols="10" rows="5"></textarea>
-            <br />
           </form>
           <button class="submit-previous-form">submit</button>
         </div>

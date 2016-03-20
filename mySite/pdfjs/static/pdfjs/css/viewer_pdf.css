@@ -27,14 +27,14 @@
 /* draggable boundary around the note */
 .note-boundary {
   padding: 10px 10px 3px 10px !important;
-  z-index: 200000;
+  z-index: 200;
   position: absolute;
   background-color: rgba(215, 218, 47, 0.9);
 }
 
 
 .page {
-  z-index: 100000  !important;
+  z-index: 100 ;
 }
 textarea {
   background-color: rgba(215, 218, 47, 0.8);
@@ -48,4 +48,8 @@ textarea {
   box-sizing:border-box; /* get textarea to vertically fill */
   -webkit-box-sizing: border-box;  /* get textarea to vertically fill */
 
+}
+
+body, html {
+  overflow: scroll;
 }
