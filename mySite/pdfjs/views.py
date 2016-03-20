@@ -21,8 +21,9 @@ def viewer_raw(request,document_pk):
     document = Document.objects.get(pk=document_pk)
     pdf_url = settings.MEDIA_URL + document.docfile.name
     addnote_url = reverse('pdfjs:addNote')
+    getnotesjson_url = reverse('pdfjs:getNotesJson', args=[document_pk])
     notes = Note.objects.filter(document=document)
-    context = {'pdf_url':pdf_url,'addnote_url':addnote_url,'document_pk':document_pk,"notes":notes}
+    context = {'pdf_url':pdf_url,'addnote_url':addnote_url,'getnotesjson_url':getnotesjson_url,'document_pk':document_pk,"notes":notes}
     return render(request, 'pdfjs/viewer_original.html', context)
 # View for rendering notes in iframe #2
 def viewer_notes(request,document_pk):
@@ -33,6 +34,11 @@ def viewer_notes(request,document_pk):
 
 # serializes notes to JsonResponse
 # This view is called when client wants to update knowledge of note database
+# [note_obj1, note_obj2, ...]
+#   note_obj.page_number
+#   note_obj.x_normalized_position
+#   note_obj.note_text_obj
+#     note_obj.note_text_obj.text
 def getNotesJson(request,document_pk):
     document = Document.objects.get(pk=document_pk)
     notes = Note.objects.filter(document=document)

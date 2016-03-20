@@ -9,7 +9,6 @@ $(document).ready(function() {
 });
 */
 
-window.notes=0;
 
 function createNote() {
 }
@@ -81,10 +80,10 @@ $(document).ready(function() {
   });
 });
 
+// Implements submit on note buttons
 // binding to dynamically created notes
 // http://stackoverflow.com/questions/203198/event-binding-on-dynamically-created-elements
 $(document).on('click', '.submit-previous-form', function(){
-  alert("submitted")
   var f = $(this).prev('form');
   var url = f.attr( 'action' );
   // process the form
@@ -95,21 +94,37 @@ $(document).on('click', '.submit-previous-form', function(){
     dataType    : 'json', // what type of data do we expect back from the server
                 encode          : true
   }).done(function(data) {
-    alert(data.document_pk)
   });
   // stop the form from submitting the normal way and refreshing the page
   event.preventDefault();
 });
 
 
+// POST to view getNotesJson
+// returns a JSON object that represents notes in database
+window.notes=0; // global variable for storing database
+function getNotesJson(document_pk) {
+  // process the form
+  $.ajax({
+    type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+    url         : getnotesjson_url, // the url where we want to POST
+    data        : {'csrfmiddlewaretoken':csrf_token}, // our data object
+    dataType    : 'json', // what type of data do we expect back from the server
+                encode          : true
+  }).done(function(data) {
+    notes=data
+    //alert(notes[0].note_text[0].text)
+  });
+}
 
+
+// Does nothing
 // note form submission via ajax
 // TODO: also update note element, note global variable via ajax
 // https://scotch.io/tutorials/submitting-ajax-forms-with-jquery
 $(document).ready(function() {
     // process the form
     $(".submit-previous-form").click(function() {
-      alert("submitted")
       var f = $(this).prev('form');
       var url = f.attr( 'action' );
       // process the form
