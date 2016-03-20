@@ -12,7 +12,7 @@
 
   <body>
     {% for note in notes %}
-      <div class="note">
+      <div id="note{{note.pk}}" class="note">
         {% for notetext in note.notetext_set.all %}
           {% if forloop.counter == 1 %}
             {{ notetext.text }} <br />

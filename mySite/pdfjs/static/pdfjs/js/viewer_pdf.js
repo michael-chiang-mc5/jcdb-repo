@@ -10,17 +10,12 @@ $(document).ready(function() {
 */
 
 
-function createNote() {
-}
-
 // On page rendering, re-render notes
 // https://github.com/mozilla/pdf.js/issues/5601
 $(document).bind('pagerendered', function (e) {
   page_number = e.originalEvent.detail.pageNumber;
   renderNotes(page_number);
 });
-
-// remove all saved notes on page=page_number
 
 
 // On double click, place a note element on the page. This note can submit a
@@ -55,8 +50,8 @@ $(document).ready(function() {
                   '<input type="hidden" name="height" value="4" />'+
                   '<textarea name="form_text" placeholder="Type here" class="default-note-size"></textarea>'+
                 '</form>'+
-                '<a class="submit-previous-form note-footer cursor right">submit</button>'+
-                '<a class="note-footer cursor left">delete</button>'+
+                '<a class="submit-note note-footer cursor right">submit</button>'+
+                '<a class="remove-note-self note-footer cursor left">delete</button>'+
               '</div>'
       var d = $(div_txt);
       page.append(d)
@@ -67,24 +62,44 @@ $(document).ready(function() {
 });
 
 // Implements submit on note buttons
-// binding to dynamically created notes
-// http://stackoverflow.com/questions/203198/event-binding-on-dynamically-created-elements
-$(document).on('click', '.submit-previous-form', function(){
+// Will not submit if text is empty
+// binding to dynamically created notes: http://stackoverflow.com/questions/203198/event-binding-on-dynamically-created-elements
+$(document).on('click', '.submit-note', function(){
   var f = $(this).prev('form');
-  var url = f.attr( 'action' );
-  // process the form
-  $.ajax({
-    type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
-    url         : url, // the url where we want to POST
-    data        : f.serialize(), // our data object
-    dataType    : 'json', // what type of data do we expect back from the server
-                encode          : true
-  }).done(function(data) {
-  });
+  var txt = f.children("textarea").val()
+  if (txt.length==0) { // do not submit if form is empty
+    f.parent().remove();
+  } else {
+    var url = f.attr( 'action' );
+    var me = $(this)
+    // process the form
+    $.ajax({
+      type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+      url         : url, // the url where we want to POST
+      data        : f.serialize(), // our data object
+      dataType    : 'json', // what type of data do we expect back from the server
+                  encode          : true
+    }).done(function(data) {
+      me.parent().remove();
+      getNotesJson();
+    });
+  }
   // stop the form from submitting the normal way and refreshing the page
   event.preventDefault();
 });
+// Implements delete on note buttons
+$(document).on('click', '.remove-note-self', function(){
+  $(this).parent().remove();
+  event.preventDefault();
+});
 
+// zoom to corresponding post in note iframe
+$(document).on('click', '.zoom-iframe', function(){
+  var note_pk = $(this).attr('id')
+  var frames = window.parent.frames;
+  frames[1].zoom(note_pk);
+  event.preventDefault();
+});
 
 // POST to view getNotesJson
 // returns a JSON object that represents notes in database
@@ -101,14 +116,25 @@ function getNotesJson() {
                 encode          : true
   }).done(function(data) {
     notesDB_global=data
+    removeNotes(-1)
+    renderNotes(-1)
+    window.parent.frames[1].location.reload();
+
     //alert(notes[0].note_text[0].text)
   });
 }
+// removes all notes on a given page
+// if page_number == -1, then remove all notes over entire pdf
+function removeNotes(page_number) {
+  $(".note-boundary").remove()
+}
+
 // render all notes on a given page
+// if page_number == -1, then do all notes over entire pdf
 function renderNotes(page_number) {
   for (i=0;i<notesDB_global.length;i++) { // iterate through all notes
     var pn = notesDB_global[i].page_number
-    if (pn == page_number) {  // check if note is on the right page
+    if (pn == page_number || page_number == -1) {  // check if note is on the right page
       renderNote(notesDB_global[i])
     }
   }
@@ -136,7 +162,7 @@ function renderNote(note_obj) {
             '<div class="resizable">'+
                 note_obj.note_text[0].text+
             '</div>'+
-            '<a class="note-footer cursor right">'+num_replies+' replies</button>'+
+            '<a id="'+note_obj.pk+'" class="zoom-iframe note-footer cursor right">'+num_replies+' replies</button>'+
           '</div>'
   var d = $(div_txt);
   page.append(d)

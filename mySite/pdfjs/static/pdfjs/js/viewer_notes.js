@@ -18,3 +18,15 @@ $(document).ready(function() {
       event.preventDefault();
     });
 });
+
+function zoom(note_pk) {
+  var note = $("#note"+note_pk)
+
+  // turn note yellow, all others grey
+  $(".note").css({'background-color':'#F5F5F5'})
+  note.css({'background-color':'yellow'})
+
+  $("body, html").animate({
+    scrollTop: note.offset().top
+  }, 600);
+}
