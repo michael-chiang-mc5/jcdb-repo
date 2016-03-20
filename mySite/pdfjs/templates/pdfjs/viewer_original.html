@@ -38,7 +38,7 @@ See https://github.com/adobe-type-tools/cmap-resources
       getnotesjson_url = "{{ getnotesjson_url }}"
       csrf_token = '{{ csrf_token }}'
       document_pk = '{{ document_pk }}'
-      getNotesJson()
+      notesDB_global = {{notes_json|safe}}
     </script>
 
 
@@ -69,13 +69,6 @@ See https://github.com/adobe-type-tools/cmap-resources
   </head>
 
   <body tabindex="1" class="loadingInProgress">
-
-    <!-- notes should be a jquery array of note data. Use an array of strings -->
-    <script type='text/javascript'>
-      var note1 = {x:2, y:3, text:["text1","text2"]};
-      var note2 = {x:4, y:5, text:["text1"]};
-      notes = [note1,note2];
-    </script>
 
     <div id="outerContainer">
 

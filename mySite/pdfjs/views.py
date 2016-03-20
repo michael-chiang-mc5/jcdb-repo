@@ -21,9 +21,10 @@ def viewer_raw(request,document_pk):
     document = Document.objects.get(pk=document_pk)
     pdf_url = settings.MEDIA_URL + document.docfile.name
     addnote_url = reverse('pdfjs:addNote')
-    getnotesjson_url = reverse('pdfjs:getNotesJson', args=[document_pk])
-    notes = Note.objects.filter(document=document)
-    context = {'pdf_url':pdf_url,'addnote_url':addnote_url,'getnotesjson_url':getnotesjson_url,'document_pk':document_pk,"notes":notes}
+    #getnotesjson_url = reverse('pdfjs:getNotesJson', args=[document_pk]) # deprecate
+    notes_json = Note.getNotesJson(document_pk)
+    #context = {'pdf_url':pdf_url,'addnote_url':addnote_url,'getnotesjson_url':getnotesjson_url,'notes_json':notes_json,'document_pk':document_pk}
+    context = {'pdf_url':pdf_url,'addnote_url':addnote_url,'notes_json':notes_json,'document_pk':document_pk}    
     return render(request, 'pdfjs/viewer_original.html', context)
 # View for rendering notes in iframe #2
 def viewer_notes(request,document_pk):
@@ -39,6 +40,7 @@ def viewer_notes(request,document_pk):
 #   note_obj.x_normalized_position
 #   note_obj.note_text_obj
 #     note_obj.note_text_obj.text
+# Deprecated
 def getNotesJson(request,document_pk):
     document = Document.objects.get(pk=document_pk)
     notes = Note.objects.filter(document=document)
