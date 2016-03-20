@@ -17,7 +17,7 @@
           {% if forloop.counter == 1 %}
             {{ notetext.text }} <br />
             <div class="signature">
-              --{{ notetext.user.username }}, {{ notetext.time|age }}
+              --{{ notetext.user.username }}, {{ notetext.time|age }}, on page {{ note.page_number }}
             </div>
           {% else %}
             <div class="not-first-post">

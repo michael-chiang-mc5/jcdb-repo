@@ -52,7 +52,8 @@ def getNotesJson(request,document_pk):
                     'text':notetext.text,
                     }
             note_text.append(obj2)
-        obj =   {'page_number':note.page_number,
+        obj =   {'pk':note.pk,
+                'page_number':note.page_number,
                 'x_normalized_position':note.x_normalized_position,
                 'y_normalized_position':note.y_normalized_position,
                 'width':note.width,

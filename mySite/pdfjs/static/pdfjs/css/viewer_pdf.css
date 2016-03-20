@@ -1,11 +1,51 @@
-.note {
+.note-footer {
+  cursor: pointer;
+  font-size: 10px;
+  color: blue;
+}
+.right {
+  float: right;
+}
+.left {
+  float: left;
+}
+
+/* default size of note */
+/* this holds text */
+.default-note-size {
+  height: 70px;
+  width: 70px;
+  background-color: rgba(215, 218, 47, 0);
+}
+
+.resizable {
+  height: 70px;
+  width: 70px;
+  background-color: rgba(215, 218, 47, 0);
+}
+
+/* draggable boundary around the note */
+.note-boundary {
+  padding: 10px 10px 3px 10px !important;
   z-index: 200000;
   position: absolute;
-  background-color: rgba(215, 218, 47, 0.8);
+  background-color: rgba(215, 218, 47, 0.9);
 }
+
+
 .page {
   z-index: 100000  !important;
 }
 textarea {
   background-color: rgba(215, 218, 47, 0.8);
+  box-sizing:border-box; /* get textarea to vertically fill */
+  -webkit-box-sizing: border-box;  /* get textarea to vertically fill */
+}
+
+.fill-space {
+  height: 100%;
+  width: 100%;
+  box-sizing:border-box; /* get textarea to vertically fill */
+  -webkit-box-sizing: border-box;  /* get textarea to vertically fill */
+
 }

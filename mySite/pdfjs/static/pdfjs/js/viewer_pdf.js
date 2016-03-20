@@ -17,17 +17,11 @@ function createNote() {
 // https://github.com/mozilla/pdf.js/issues/5601
 $(document).bind('pagerendered', function (e) {
   page_number = e.originalEvent.detail.pageNumber;
-  console.log(page_number); // which page is rendered
   renderNotes(page_number);
 });
 
 // remove all saved notes on page=page_number
 
-
-// render all saved notes on page=page_number
-function renderNotes(page_number) {
-  console.log(notes);
-}
 
 // On double click, place a note element on the page. This note can submit a
 // post form
@@ -49,18 +43,9 @@ $(document).ready(function() {
       var x_normalized = x/page_width;
       var y_normalized = y/page_height;
       // place note
-      /*
       div_txt=''+
-      '<div class="note">' +
-      '    <textarea name="ta" id="ta" cols="10" rows="5"></textarea>' +
-      '    <br />' +
-      '    <input type="submit" value="submit"/>' +
-      '</div>'
-      */
-      div_txt=''+
-              '<div class="note">'+
-                'Type here:'+
-                '<form role="form" action="'+addnote_url+'" method=POST>'+
+              '<div class="note-boundary">'+
+                '<form role="form" class="fill-space" action="'+addnote_url+'" method=POST>'+
                   '<input type="hidden" name="csrfmiddlewaretoken" value="'+csrf_token+'" />'+
                   '<input type="hidden" name="document_pk" value="'+document_pk+'" />'+
                   '<input type="hidden" name="page_number" value="'+page_number+'" />'+
@@ -68,9 +53,10 @@ $(document).ready(function() {
                   '<input type="hidden" name="y_normalized" value="'+y_normalized+'" />'+
                   '<input type="hidden" name="width" value="3" />'+
                   '<input type="hidden" name="height" value="4" />'+
-                  '<textarea name="form_text" cols="10" rows="5"></textarea>'+
+                  '<textarea name="form_text" placeholder="Type here" class="default-note-size"></textarea>'+
                 '</form>'+
-                '<button class="submit-previous-form">submit</button>'+
+                '<a class="submit-previous-form note-footer cursor right">submit</button>'+
+                '<a class="note-footer cursor left">delete</button>'+
               '</div>'
       var d = $(div_txt);
       page.append(d)
@@ -102,8 +88,10 @@ $(document).on('click', '.submit-previous-form', function(){
 
 // POST to view getNotesJson
 // returns a JSON object that represents notes in database
-window.notes=0; // global variable for storing database
-function getNotesJson(document_pk) {
+// Usage: notesDB_global[i].note_text[j].text
+//        where i is the ith note, j is th jth comment in the ith note
+window.notesDB_global=0; // global variable for storing database
+function getNotesJson() {
   // process the form
   $.ajax({
     type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
@@ -112,32 +100,65 @@ function getNotesJson(document_pk) {
     dataType    : 'json', // what type of data do we expect back from the server
                 encode          : true
   }).done(function(data) {
-    notes=data
+    notesDB_global=data
     //alert(notes[0].note_text[0].text)
   });
 }
+// render all notes on a given page
+function renderNotes(page_number) {
+  for (i=0;i<notesDB_global.length;i++) { // iterate through all notes
+    var pn = notesDB_global[i].page_number
+    if (pn == page_number) {  // check if note is on the right page
+      renderNote(notesDB_global[i])
+    }
+  }
+}
+// render a single note object. This function will not work properly
+// if corresponding canvas has not been rendered
+// Usage: note_obj.page_number
+//        note_obj.x_normalized_position
+//        note_obj.note_text[i].text
+function renderNote(note_obj) {
+  // get x,y position of note
+  var page_number = note_obj.page_number
+  var page = $("#pageContainer"+page_number)
+  var page_width = page.width()
+  var page_height = page.height()
+  var x_normalized = note_obj.x_normalized_position;
+  var y_normalized = note_obj.y_normalized_position;
+  var x = x_normalized*page_width
+  var y = y_normalized*page_height
+  var num_replies = note_obj.note_text.length - 1 // minus one because first text is original note
+
+  // create note
+  div_txt=''+
+          '<div id="savednote-'+note_obj.pk+'" class="note-boundary">'+
+            '<div class="resizable">'+
+                note_obj.note_text[0].text+
+            '</div>'+
+            '<a class="note-footer cursor right">'+num_replies+' replies</button>'+
+          '</div>'
+  var d = $(div_txt);
+  page.append(d)
+  d.css({top: y, left: x });
+  d.draggable()
+  var resizable = d.children( ".resizable" )
+  make_resizable(resizable)
+}
 
 
-// Does nothing
-// note form submission via ajax
-// TODO: also update note element, note global variable via ajax
-// https://scotch.io/tutorials/submitting-ajax-forms-with-jquery
-$(document).ready(function() {
-    // process the form
-    $(".submit-previous-form").click(function() {
-      var f = $(this).prev('form');
-      var url = f.attr( 'action' );
-      // process the form
-      $.ajax({
-        type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
-        url         : url, // the url where we want to POST
-        data        : f.serialize(), // our data object
-        dataType    : 'json', // what type of data do we expect back from the server
-                    encode          : true
-      }).done(function(data) {
-        alert(data.document_pk)
-      });
-      // stop the form from submitting the normal way and refreshing the page
-      event.preventDefault();
-    });
-});
+function make_resizable(obj) {
+  obj
+    .wrap('<div/>')
+      .css({'overflow':'hidden'})
+        .parent()
+          .css({'display':'block',
+                'overflow':'hidden',
+                'height':function(){return $('.resizable',this).height();},
+                'width':  function(){return $('.resizable',this).width();},
+               }).resizable()
+                  .find('.resizable')
+                    .css({overflow:'auto',
+                          width:'100%',
+                          height:'100%'});
+}
