@@ -115,7 +115,9 @@ def editNotetext(request):
         return HttpResponse("Attempted to reply note without POST")
     notetext = NoteText.objects.get(pk=notetext_pk)
     notetext.editText(text=form_text)
-    response = {}
+    note_pk = notetext.note.pk
+    isFirst = notetext.isFirst()
+    response = {'isFirst':isFirst,'form_text':form_text,'pk':notetext_pk,'note_pk':note_pk}
     return JsonResponse(response)
 
 def deleteNotetext(request):

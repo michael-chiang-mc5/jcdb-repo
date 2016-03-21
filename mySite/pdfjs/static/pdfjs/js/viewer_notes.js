@@ -1,7 +1,7 @@
-// implements submit button
+// implements submission for reply and edit button
 // https://scotch.io/tutorials/submitting-ajax-forms-with-jquery
-$(document).on('click', ".submit-previous-form", function(){
-
+// TODO: update other iframe
+$(document).on('click', ".reply-button", function(){
     // process the form
       var f = $(this).prev('form');
       var url = f.attr( 'action' );
@@ -19,7 +19,33 @@ $(document).on('click', ".submit-previous-form", function(){
       event.preventDefault();
 });
 
-// implements delete button
+// implements submission edit button. fully functional
+$(document).on('click', ".edit-button", function(){
+    // process the form
+      var f = $(this).prev('form');
+      var url = f.attr( 'action' );
+      // process the form
+      $.ajax({
+        type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+        url         : url, // the url where we want to POST
+        data        : f.serialize(), // our data object
+        dataType    : 'json', // what type of data do we expect back from the server
+                    encode          : true
+      }).done(function(data) {
+        // modify text in this iframe
+        $("#notetextonly"+data.pk).html(data.form_text)
+        $("#editform"+data.pk).toggle();
+        // modify text in pdf iframe
+        var frames = window.parent.frames;
+        frames[0].removeNote(data.note_pk);
+        frames[0].modify_notetext(data.pk,data.form_text)
+        frames[0].renderNoteByPk(data.note_pk);
+      });
+      // stop the form from submitting the normal way and refreshing the page
+      event.preventDefault();
+});
+
+// implements delete button. fully functional
 $(document).on('click', ".delete-link", function(){
   var notetext_pk = $(this).attr('pk')
   var note_pk = $(this).attr('notepk')
@@ -35,6 +61,7 @@ $(document).on('click', ".delete-link", function(){
       $("#note"+note_pk).remove()
       var frames = window.parent.frames;
       frames[0].removeNote(note_pk);
+      frames[0].delete_note(note_pk);
     } else {
       $("#notetext"+notetext_pk).remove()
       var frames = window.parent.frames;
@@ -90,8 +117,10 @@ function createNote(note) {
   var notetext = note.note_text[0]
   html_txt= ''+
             '<div pagenumber="'+note.page_number+'" id="note'+note.pk+'" class="note">'+
-              '<div>'+
-                notetext.text+"<br />"+
+              '<div id="notetext'+notetext.pk+'">'+
+                '<div id="notetextonly'+notetext.pk+'">'+
+                  notetext.text+
+                '</div>'+
                 '<div class="signature left">'+
                   '--'+notetext.username+', '+notetext.time+
                 '</div>'+
@@ -106,7 +135,7 @@ function createNote(note) {
                     '<input type="hidden" name="notetext_pk" value="'+notetext.pk+'" />'+
                     '<textarea name="form_text" cols="10" rows="5">'+notetext.text+'</textarea>'+
                   '</form>'+
-                  '<button class="submit-previous-form">submit edit</button>'+
+                  '<button class="edit-button">submit edit</button>'+
                 '</div>'+
               '</div>'+
               '<div>'+
@@ -120,7 +149,7 @@ function createNote(note) {
                   '<input type="hidden" name="note_pk" value="'+note.pk+'" />'+
                   '<textarea name="form_text" cols="10" rows="5"></textarea>'+
                 '</form>'+
-                '<button class="submit-previous-form">submit</button>'+
+                '<button class="reply-button">submit</button>'+
               '</div>'+
             '</div>'
     var el = $(html_txt);

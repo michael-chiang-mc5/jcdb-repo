@@ -22,12 +22,14 @@
       <div pagenumber="{{ note.page_number }}" id="note{{note.pk}}" class="note">
         {% for notetext in note.notetext_set.all %}
           {% if forloop.counter == 1 %}
-            <div>
+            <div id="notetext{{notetext.pk}}">
           {% else %}
             <div id="notetext{{notetext.pk}}" class="not-first-post">
           {% endif %}
 
-          {{ notetext.text }} <br />
+          <div id="notetextonly{{notetext.pk}}">
+            {{ notetext.text }}
+          </div>
           <div class="signature left">
             --{{ notetext.user.username }}, {{ notetext.time|age }}
           </div>
@@ -43,7 +45,7 @@
                 <input type="hidden" name="notetext_pk" value="{{ notetext.pk }}" />
                     <textarea name="form_text" cols="10" rows="5">{{ notetext.text }}</textarea>
               </form>
-              <button class="submit-previous-form">submit edit</button>
+              <button class="edit-button">submit edit</button>
             </div>
           {% endif %}
           </div>
@@ -60,7 +62,7 @@
             <input type="hidden" name="note_pk" value="{{ note.pk }}" />
             <textarea name="form_text" cols="10" rows="5"></textarea>
           </form>
-          <button class="submit-previous-form">submit</button>
+          <button class="reply-button">submit</button>
         </div>
       </div>
     {% endfor %}
