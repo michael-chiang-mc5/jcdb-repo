@@ -20,6 +20,7 @@
     {% for note in notes %}
       <!-- if you modify, you should also change appendNote() in viewer_notes.js -->
       <div pagenumber="{{ note.page_number }}" id="note{{note.pk}}" class="note">
+        <div id="replybox{{note.pk}}">
         {% for notetext in note.notetext_set.all %}
           {% if forloop.counter == 1 %}
             <div id="notetext{{notetext.pk}}">
@@ -50,17 +51,17 @@
           {% endif %}
           </div>
         {% endfor %}
-
-        <div>
+        </div>
+        <div id="replyfooter{{note.pk}}">
           <a notepk="{{note.pk}}" class="note_footer zoom left">zoom</a>
           <a pk="{{note.pk}}" class="note_footer reply-link right">reply</a>
         </div>
         <div style="clear: both;"></div>
-        <div id="replyform{{note.pk}}" class="hidden">
+        <div id="replyform{{note.pk}}" class="hidden replyform">
           <form class="note-form" role="form" action="{% url 'pdfjs:replyNote' %}" method=POST>
             {% csrf_token %}
             <input type="hidden" name="note_pk" value="{{ note.pk }}" />
-            <textarea name="form_text" cols="10" rows="5"></textarea>
+            <textarea id="textarea{{note.pk}}" name="form_text" cols="10" rows="5"></textarea>
           </form>
           <button class="reply-button">submit</button>
         </div>

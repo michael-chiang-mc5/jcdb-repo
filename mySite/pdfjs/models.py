@@ -18,6 +18,7 @@ class Note(models.Model):
         self.save()
         noteText = NoteText(user=user,text=text,note=self)
         noteText.save()
+        return noteText
 
     # get all notes in a given document. return as json object
     def getNotesJson(document_pk):
@@ -32,11 +33,7 @@ class Note(models.Model):
         notetexts = note.notetext_set.all() # TODO: sort by time
         note_text = []
         for notetext in notetexts:
-            obj2 = {'username':notetext.user.username,
-                    'time':notetext.time.strftime('%m-%d-%Y'), # TODO: switch to age
-                    'text':notetext.text,
-                    'pk':notetext.pk,
-                    }
+            obj2 = NoteText.getNotetextJson(notetext)
             note_text.append(obj2)
         obj =   {'pk':note.pk,
                 'page_number':note.page_number,
@@ -55,6 +52,13 @@ class NoteText(models.Model):
     note = models.ForeignKey(Note)
     def __str__(self):
         return self.text
+    def getNotetextJson(notetext):
+        obj = {'username':notetext.user.username,
+                'time':notetext.time.strftime('%m-%d-%Y'), # TODO: switch to age
+                'text':notetext.text,
+                'pk':notetext.pk,
+                }
+        return obj
     def editText(self,text):
         self.text=text;
         self.save();

@@ -76,8 +76,9 @@ def replyNote(request):
     else:
         return HttpResponse("Attempted to reply note without POST")
     note = Note.objects.get(pk=note_pk)
-    note.addText(user=user,text=form_text)
-    response = {}
+    notetext = note.addText(user=user,text=form_text)
+    notetext_obj = NoteText.getNotetextJson(notetext)
+    response = {'notetext_obj':notetext_obj,'note_pk':note.pk}
     return JsonResponse(response)
 
 # return json object representing the note added

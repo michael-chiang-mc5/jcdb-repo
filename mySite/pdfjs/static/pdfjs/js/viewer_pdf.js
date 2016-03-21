@@ -20,7 +20,15 @@ function modify_notetext(notetext_pk, text) {
     }
   }
 }
-
+function add_notetext(note_pk, notetext_obj) {
+  for (var i=0;i<notesDB_global.length;i++) {
+    if (notesDB_global[i].pk == note_pk) {
+      console.log("found")
+      notesDB_global[i].note_text.push(notetext_obj)
+      break;
+    }
+  }
+}
 
 function delete_note(note_pk) {
   for (var i=0;i<notesDB_global.length;i++) {
