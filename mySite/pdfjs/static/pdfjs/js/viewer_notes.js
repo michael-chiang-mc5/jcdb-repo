@@ -1,6 +1,6 @@
 // implements submission for reply and edit button
 // https://scotch.io/tutorials/submitting-ajax-forms-with-jquery
-// fully function
+// fully functional
 $(document).on('click', ".reply-button", function(){
     // process the form
       var f = $(this).prev('form');

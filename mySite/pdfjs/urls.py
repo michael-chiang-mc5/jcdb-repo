@@ -11,5 +11,6 @@ urlpatterns = [
     url(r'^editNotetext/$', views.editNotetext, name='editNotetext'),
     url(r'^deleteNotetext/$', views.deleteNotetext, name='deleteNotetext'),
     url(r'^getNotesJson/(?P<document_pk>[0-9]+)/$', views.getNotesJson, name='getNotesJson'),
-
+    url(r'^resizeNote/$', views.resizeNote, name='resizeNote'),
+    url(r'^dragNote/$', views.dragNote, name='dragNote'),
 ]

@@ -9,7 +9,17 @@ function delete_notetext(notetext_pk) {
     }
   }
 }
-
+function modify_widthheight(note_pk,width,height) {
+  console.log(note_pk)
+  for (var i=0;i<notesDB_global.length;i++) {
+    if (notesDB_global[i].pk == note_pk) {
+      console.log("found")
+      notesDB_global[i].width=width
+      notesDB_global[i].height=height
+      break;
+    }
+  }
+}
 function modify_notetext(notetext_pk, text) {
   for (var i=0;i<notesDB_global.length;i++) {
     for (var j=0;j<notesDB_global[i].note_text.length;j++) {
@@ -101,15 +111,15 @@ $(document).ready(function() {
       var y_normalized = y/page_height;
       // place note
       div_txt=''+
-              '<div class="note-boundary">'+
+              '<div pagenumber="'+page_number+'" class="note-boundary">'+
                 '<form role="form" class="fill-space" action="'+addnote_url+'" method=POST>'+
                   '<input type="hidden" name="csrfmiddlewaretoken" value="'+csrf_token+'" />'+
                   '<input type="hidden" name="document_pk" value="'+document_pk+'" />'+
                   '<input type="hidden" name="page_number" value="'+page_number+'" />'+
-                  '<input type="hidden" name="x_normalized" value="'+x_normalized+'" />'+
-                  '<input type="hidden" name="y_normalized" value="'+y_normalized+'" />'+
-                  '<input type="hidden" name="width" value="3" />'+
-                  '<input type="hidden" name="height" value="4" />'+
+                  //'<input type="hidden" name="x_normalized" value="'+x_normalized+'" />'+
+                  //'<input type="hidden" name="y_normalized" value="'+y_normalized+'" />'+
+                  //'<input type="hidden" name="width" value="3" />'+
+                  //'<input type="hidden" name="height" value="4" />'+
                   '<textarea name="form_text" placeholder="Type here" class="default-note-size"></textarea>'+
                 '</form>'+
                 '<a class="submit-note note-footer cursor right">submit</button>'+
@@ -127,7 +137,25 @@ $(document).ready(function() {
 // Will not submit if text is empty
 // binding to dynamically created notes: http://stackoverflow.com/questions/203198/event-binding-on-dynamically-created-elements
 $(document).on('click', '.submit-note', function(){
+  // get note position
   var f = $(this).prev('form');
+  var note = f.parent()
+  var position = note.position();
+  var page_number = note.attr('pagenumber')
+  var page = $("#pageContainer"+page_number)
+  var x = position.left;
+  var y = position.top;
+  var page_width = page.width()
+  var page_height = page.height()
+  var x_normalized = x/page_width;
+  var y_normalized = y/page_height;
+  // get note width and height
+  var textarea = f.children('textarea');
+  var width = textarea.width();
+  var height = textarea.height();
+  console.log(textarea.width(), textarea.height())
+
+
   var txt = f.children("textarea").val()
   if (txt.length==0) { // do not submit if form is empty
     f.parent().remove();
@@ -138,7 +166,7 @@ $(document).on('click', '.submit-note', function(){
     $.ajax({
       type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
       url         : url, // the url where we want to POST
-      data        : f.serialize(), // our data object
+      data        : f.serialize() + '&x_normalized='+x_normalized+'&y_normalized='+y_normalized+'&width='+width+'&height='+height, // our data object
       dataType    : 'json', // what type of data do we expect back from the server
                   encode          : true
     }).done(function(obj) {
@@ -239,11 +267,12 @@ function renderNote(note_obj) {
   var x = x_normalized*page_width
   var y = y_normalized*page_height
   var num_replies = note_obj.note_text.length - 1 // minus one because first text is original note
-
+  var width = note_obj.width
+  var height = note_obj.height
   // create note
   div_txt=''+
           '<div pagenumber="'+page_number+'" id="savednote'+note_obj.pk+'" class="note-boundary">'+
-            '<div class="resizable">'+
+            '<div notepk="'+note_obj.pk+'" class="resizable">'+
                 note_obj.note_text[0].text+
             '</div>'+
             '<a id="'+note_obj.pk+'" class="zoom-iframe note-footer cursor right">'+num_replies+' replies</button>'+
@@ -251,12 +280,43 @@ function renderNote(note_obj) {
   var d = $(div_txt);
   page.append(d)
   d.css({top: y, left: x });
-  d.draggable()
   var resizable = d.children( ".resizable" )
-  make_resizable(resizable)
+  resizable.css({'width':width,'height':height})
+  d.draggable()
+  //make_resizable(resizable)
+  resizable.resizable({
+    stop: function( event, ui ) {
+      var note_pk = $(this).attr('notepk') // $(this) is resizable
+      // get width and height
+      var width = $(this).width();
+      var height = $(this).height();
+      // update width, height on server
+      $.ajax({
+        type        : 'POST',
+        url         : resizenote_url,
+        data        : {'csrfmiddlewaretoken':csrf_token,
+                       'width':width,
+                       'height':height,
+                       'note_pk':note_pk}, // our data object
+        dataType    : 'json',
+                    encode          : true
+      }).done(function(data) {
+        // update width, height on local db
+        modify_widthheight(note_pk,width,height)
+        // no need to draw because already resized
+      });
+    }
+  });
 }
 
 
+
+$(document).bind('resizestop', function (e) {
+});
+
+
+// deprecated
+/*
 function make_resizable(obj) {
   obj
     .wrap('<div/>')
@@ -266,9 +326,11 @@ function make_resizable(obj) {
                 'overflow':'hidden',
                 'height':function(){return $('.resizable',this).height();},
                 'width':  function(){return $('.resizable',this).width();},
-               }).resizable()
-                  .find('.resizable')
+               }).resizable({
+                  stop: function( event, ui ) {}
+                  }).find('.resizable')
                     .css({overflow:'auto',
                           width:'100%',
                           height:'100%'});
 }
+*/

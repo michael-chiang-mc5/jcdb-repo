@@ -21,10 +21,12 @@ def viewer_raw(request,document_pk):
     document = Document.objects.get(pk=document_pk)
     pdf_url = settings.MEDIA_URL + document.docfile.name
     addnote_url = reverse('pdfjs:addNote')
+    dragnote_url = reverse('pdfjs:dragNote')
+    resizenote_url = reverse('pdfjs:resizeNote')
     #getnotesjson_url = reverse('pdfjs:getNotesJson', args=[document_pk]) # deprecate
     notes_json = Note.getNotesJson(document_pk)
     #context = {'pdf_url':pdf_url,'addnote_url':addnote_url,'getnotesjson_url':getnotesjson_url,'notes_json':notes_json,'document_pk':document_pk}
-    context = {'pdf_url':pdf_url,'addnote_url':addnote_url,'notes_json':notes_json,'document_pk':document_pk}
+    context = {'pdf_url':pdf_url,'addnote_url':addnote_url,'dragnote_url':dragnote_url,'resizenote_url':resizenote_url,'notes_json':notes_json,'document_pk':document_pk}
     return render(request, 'pdfjs/viewer_original.html', context)
 # View for rendering notes in iframe #2
 def viewer_notes(request,document_pk):
@@ -135,4 +137,22 @@ def deleteNotetext(request):
     else:
         notetext.delete()
     response = {'delete_entire_note':isFirst}
+    return JsonResponse(response)
+
+def resizeNote(request):
+    if request.method == 'POST':
+        width = request.POST.get("width")
+        height = request.POST.get("height")
+        note_pk = request.POST.get("note_pk")
+    else:
+        return HttpResponse("Attempted to resize note without POST")
+    note = Note.objects.get(pk=note_pk)
+    note.width = width
+    note.height = height
+    note.save()
+    response = {}
+    return JsonResponse(response)
+
+def dragNote(request):
+    response = {'asdf':1}
     return JsonResponse(response)

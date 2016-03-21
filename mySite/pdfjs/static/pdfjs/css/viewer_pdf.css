@@ -10,14 +10,14 @@
   float: left;
 }
 
-/* default size of note */
-/* this holds text */
+/* this is the note with a text box */
 .default-note-size {
   height: 70px;
   width: 70px;
   background-color: rgba(215, 218, 47, 0);
 }
 
+/* this is the saved note */
 .resizable {
   height: 70px;
   width: 70px;
