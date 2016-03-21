@@ -30,7 +30,10 @@ def viewer_raw(request,document_pk):
 def viewer_notes(request,document_pk):
     document = Document.objects.get(pk=document_pk)
     notes = Note.objects.filter(document=document)
-    context = {'document_pk':document_pk,"notes":notes}
+    url_deletenotetext = reverse('pdfjs:deleteNotetext');
+    url_editNotetext = reverse('pdfjs:editNotetext')
+    url_replynote = reverse('pdfjs:replyNote')
+    context = {'document_pk':document_pk,"notes":notes,"url_deletenotetext":url_deletenotetext,'url_editNotetext':url_editNotetext,'url_replynote':url_replynote}
     return render(request, 'pdfjs/viewer_notes.html', context)
 
 # serializes notes to JsonResponse
@@ -101,4 +104,32 @@ def addNote(request):
     note.addText(user=user,text=form_text)
     note_obj = Note.getNoteJson(note)
     response = {'note_obj':note_obj}
+    return JsonResponse(response)
+
+def editNotetext(request):
+    if request.method == 'POST':
+        notetext_pk = request.POST.get("notetext_pk")
+        form_text = request.POST.get("form_text")
+        user = request.user
+    else:
+        return HttpResponse("Attempted to reply note without POST")
+    notetext = NoteText.objects.get(pk=notetext_pk)
+    notetext.editText(text=form_text)
+    response = {}
+    return JsonResponse(response)
+
+def deleteNotetext(request):
+    if request.method == 'POST':
+        notetext_pk = request.POST.get("notetext_pk")
+    else:
+        return HttpResponse("Attempted to reply note without POST")
+    notetext = NoteText.objects.get(pk=notetext_pk)
+    # Remove entier note if notetext is first
+    isFirst = notetext.isFirst()
+    if isFirst:
+        note = notetext.note
+        note.delete()
+    else:
+        notetext.delete()
+    response = {'delete_entire_note':isFirst}
     return JsonResponse(response)

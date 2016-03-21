@@ -7,6 +7,12 @@
     <script src="{% static 'MCBase/js/jquery-2.1.4.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'pdfjs/css/viewer_notes.css' %}"/>
     <script src="{% static 'pdfjs/js/viewer_notes.js' %}"></script>
+    <script>
+      url_deletenotetext = "{{ url_deletenotetext }}"
+      csrf_token = "{{ csrf_token }}"
+      url_editNotetext = "{{url_editNotetext}}"
+      url_replynote = "{{url_replynote}}"
+    </script>
   </head>
 
 
@@ -16,24 +22,39 @@
       <div pagenumber="{{ note.page_number }}" id="note{{note.pk}}" class="note">
         {% for notetext in note.notetext_set.all %}
           {% if forloop.counter == 1 %}
-            {{ notetext.text }} <br />
-            <div class="signature">
-              --{{ notetext.user.username }}, {{ notetext.time|age }}
-            </div>
+            <div>
           {% else %}
-            <div class="not-first-post">
-              {{ notetext.text }}
-              <div class="signature">
-                --{{ notetext.user.username }}, {{ notetext.time|age }}
-              </div>
+            <div id="notetext{{notetext.pk}}" class="not-first-post">
+          {% endif %}
+
+          {{ notetext.text }} <br />
+          <div class="signature left">
+            --{{ notetext.user.username }}, {{ notetext.time|age }}
+          </div>
+          {% if request.user.pk == notetext.user.pk %}
+            <div class="right signature edit_button">
+              <a notepk="{{note.pk}}" pk="{{notetext.pk}}" class="delete-link">delete</a>
+              <a pk="{{notetext.pk}}" class="edit-link">edit</a>
+            </div>
+            <div style="clear: both;"></div>
+            <div id="editform{{notetext.pk}}" class="hidden">
+              <form class="note-form" role="form" action="{% url 'pdfjs:editNotetext' %}" method=POST>
+                {% csrf_token %}
+                <input type="hidden" name="notetext_pk" value="{{ notetext.pk }}" />
+                    <textarea name="form_text" cols="10" rows="5">{{ notetext.text }}</textarea>
+              </form>
+              <button class="submit-previous-form">submit edit</button>
             </div>
           {% endif %}
+          </div>
         {% endfor %}
+
         <div>
           <a notepk="{{note.pk}}" class="note_footer zoom left">zoom</a>
-          <a class="note_footer right">reply</a>
+          <a pk="{{note.pk}}" class="note_footer reply-link right">reply</a>
         </div>
-        <div>
+        <div style="clear: both;"></div>
+        <div id="replyform{{note.pk}}" class="hidden">
           <form class="note-form" role="form" action="{% url 'pdfjs:replyNote' %}" method=POST>
             {% csrf_token %}
             <input type="hidden" name="note_pk" value="{{ note.pk }}" />

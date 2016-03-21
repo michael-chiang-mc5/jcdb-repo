@@ -98,8 +98,10 @@ $(document).on('click', '.submit-note', function(){
       renderNote(note_obj)
       // save note to local db
       notesDB_global.push(note_obj)
-      // write note to other iframe
-      
+      // write note to note iframe
+      var frames = window.parent.frames;
+      frames[1].createNote(note_obj);
+
     });
   }
   // stop the form from submitting the normal way and refreshing the page

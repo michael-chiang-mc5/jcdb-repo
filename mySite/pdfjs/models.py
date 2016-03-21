@@ -32,9 +32,10 @@ class Note(models.Model):
         notetexts = note.notetext_set.all() # TODO: sort by time
         note_text = []
         for notetext in notetexts:
-            obj2 = {'user':notetext.user.username,
-                    'time':notetext.time.strftime('%m-%d-%Y'),
+            obj2 = {'username':notetext.user.username,
+                    'time':notetext.time.strftime('%m-%d-%Y'), # TODO: switch to age
                     'text':notetext.text,
+                    'pk':notetext.pk,
                     }
             note_text.append(obj2)
         obj =   {'pk':note.pk,
@@ -54,3 +55,15 @@ class NoteText(models.Model):
     note = models.ForeignKey(Note)
     def __str__(self):
         return self.text
+    def editText(self,text):
+        self.text=text;
+        self.save();
+    # returns True if notetext object if first in Note
+    def isFirst(self):
+        note = self.note
+        notetexts = note.notetext_set.order_by('time')
+        first_pk = notetexts[0].pk
+        if first_pk == self.pk:
+            return True
+        else:
+            return False

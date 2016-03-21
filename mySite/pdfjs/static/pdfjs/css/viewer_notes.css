@@ -3,9 +3,9 @@
   background-color: #F5F5F5;
   padding-left: 0.25in;
   padding-right: 0.25in;
-  padding-top: 0.05in;
+  padding-top: 0.10in;
   padding-bottom: 0.05in;
-  border-radius: 0.25in;
+  border-radius: 0.2in;
   margin-bottom: 20px;
 }
 
@@ -45,4 +45,13 @@ textarea {
   cursor: pointer;
   font-size: 11px;
   color: blue;
+}
+
+.hidden {
+  display: none;
+}
+
+.edit_button {
+  color: blue !important;
+  cursor: pointer
 }
