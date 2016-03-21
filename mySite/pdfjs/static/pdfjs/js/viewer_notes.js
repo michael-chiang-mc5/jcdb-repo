@@ -32,9 +32,15 @@ $(document).on('click', ".delete-link", function(){
                 encode          : true
   }).done(function(data) {
     if (data.delete_entire_note) {
-      $("#note"+note_pk).remove()      
+      $("#note"+note_pk).remove()
+      var frames = window.parent.frames;
+      frames[0].removeNote(note_pk);
     } else {
       $("#notetext"+notetext_pk).remove()
+      var frames = window.parent.frames;
+      frames[0].removeNote(note_pk);
+      frames[0].delete_notetext(notetext_pk);
+      frames[0].renderNoteByPk(note_pk);
     }
   });
 });

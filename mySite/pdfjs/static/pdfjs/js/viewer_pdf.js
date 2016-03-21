@@ -1,3 +1,29 @@
+// These are functions to modify notesDB_global
+function delete_notetext(notetext_pk) {
+  for (var i=0;i<notesDB_global.length;i++) {
+    for (var j=0;j<notesDB_global[i].note_text.length;j++) {
+        if (notesDB_global[i].note_text[j].pk == notetext_pk) {
+          //alert(notesDB_global[j].length)
+          console.log(notesDB_global[i].note_text[j])
+          notesDB_global[i].note_text.splice(j, 1);
+          break;
+        }
+    }
+  }
+}
+
+
+
+function renderNoteByPk(note_pk) {
+  for (var i=0;i<notesDB_global.length;i++) {
+    if (notesDB_global[i].pk == note_pk) {
+      var note_obj = notesDB_global[i]
+      renderNote(note_obj)
+      break;
+    }
+  }
+}
+
 
 /* Example of how to call cross-frame javascript function
 $(document).ready(function() {
@@ -155,16 +181,22 @@ function removeNotes(page_number) {
 }
 */
 
+function removeNote(note_pk) {
+  $("#savednote"+note_pk).remove()
+}
+
 // render all notes on a given page
 // if page_number == -1, then do all notes over entire pdf
 function renderNotes(page_number) {
-  for (i=0;i<notesDB_global.length;i++) { // iterate through all notes
+  for (var i=0;i<notesDB_global.length;i++) { // iterate through all notes
     var pn = notesDB_global[i].page_number
     if (pn == page_number || page_number == -1) {  // check if note is on the right page
       renderNote(notesDB_global[i])
     }
   }
 }
+
+
 // render a single note object. This function will not work properly
 // if corresponding canvas has not been rendered
 // Usage: note_obj.page_number
