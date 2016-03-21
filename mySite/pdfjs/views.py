@@ -154,5 +154,15 @@ def resizeNote(request):
     return JsonResponse(response)
 
 def dragNote(request):
-    response = {'asdf':1}
+    if request.method == 'POST':
+        x_normalized = request.POST.get("x_normalized")
+        y_normalized = request.POST.get("y_normalized")
+        note_pk = request.POST.get("note_pk")
+    else:
+        return HttpResponse("Attempted to resize note without POST")
+    note = Note.objects.get(pk=note_pk)
+    note.x_normalized_position = x_normalized
+    note.y_normalized_position = y_normalized
+    note.save()
+    response = {}
     return JsonResponse(response)

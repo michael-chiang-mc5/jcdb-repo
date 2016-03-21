@@ -20,6 +20,16 @@ function modify_widthheight(note_pk,width,height) {
     }
   }
 }
+function modify_position(note_pk,x_normalized,y_normalized) {
+  console.log(note_pk)
+  for (var i=0;i<notesDB_global.length;i++) {
+    if (notesDB_global[i].pk == note_pk) {
+      notesDB_global[i].x_normalized_position=x_normalized
+      notesDB_global[i].y_normalized_position=y_normalized
+      break;
+    }
+  }
+}
 function modify_notetext(notetext_pk, text) {
   for (var i=0;i<notesDB_global.length;i++) {
     for (var j=0;j<notesDB_global[i].note_text.length;j++) {
@@ -271,7 +281,7 @@ function renderNote(note_obj) {
   var height = note_obj.height
   // create note
   div_txt=''+
-          '<div pagenumber="'+page_number+'" id="savednote'+note_obj.pk+'" class="note-boundary">'+
+          '<div notepk="'+note_obj.pk+'" pagenumber="'+page_number+'" id="savednote'+note_obj.pk+'" class="note-boundary">'+
             '<div notepk="'+note_obj.pk+'" class="resizable">'+
                 note_obj.note_text[0].text+
             '</div>'+
@@ -282,8 +292,38 @@ function renderNote(note_obj) {
   d.css({top: y, left: x });
   var resizable = d.children( ".resizable" )
   resizable.css({'width':width,'height':height})
-  d.draggable()
-  //make_resizable(resizable)
+  d.draggable({
+    // http://api.jqueryui.com/draggable/
+    stop: function( event, ui ) {
+      var note_pk = $(this).attr('notepk') // $(this) is d
+      // get position
+      var position = $(this).position();
+      var page_number = $(this).attr('pagenumber')
+      var page = $("#pageContainer"+page_number)
+      var x = position.left;
+      var y = position.top;
+      var page_width = page.width()
+      var page_height = page.height()
+      var x_normalized = x/page_width;
+      var y_normalized = y/page_height;
+      // update position on server
+      console.log(dragnote_url)
+      $.ajax({
+        type        : 'POST',
+        url         : dragnote_url,
+        data        : {'csrfmiddlewaretoken':csrf_token,
+                       'x_normalized':x_normalized,
+                       'y_normalized':y_normalized,
+                       'note_pk':note_pk}, // our data object
+        dataType    : 'json',
+                    encode          : true
+      }).done(function(data) {
+        // update position on local db
+        modify_position(note_pk,x_normalized,y_normalized)
+        // no need to draw because already resized
+      });
+    }
+  });
   resizable.resizable({
     stop: function( event, ui ) {
       var note_pk = $(this).attr('notepk') // $(this) is resizable
