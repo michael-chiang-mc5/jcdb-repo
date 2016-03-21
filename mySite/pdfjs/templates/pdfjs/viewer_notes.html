@@ -39,7 +39,6 @@
               <a notepk="{{note.pk}}" pk="{{notetext.pk}}" class="delete-link">delete</a>
               <a pk="{{notetext.pk}}" class="edit-link">edit</a>
             </div>
-            <div style="clear: both;"></div>
             <div id="editform{{notetext.pk}}" class="hidden">
               <form class="note-form" role="form" action="{% url 'pdfjs:editNotetext' %}" method=POST>
                 {% csrf_token %}
@@ -49,6 +48,7 @@
               <button class="edit-button">submit edit</button>
             </div>
           {% endif %}
+          <div style="clear: both;"></div>
           </div>
         {% endfor %}
         </div>

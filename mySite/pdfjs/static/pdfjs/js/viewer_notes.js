@@ -28,7 +28,6 @@ $(document).on('click', ".reply-button", function(){
                            '<a notepk="'+note_pk+'" pk="'+notetext.pk+'" class="delete-link">delete</a>'+
                            '<a pk="'+notetext.pk+'" class="edit-link">edit</a>'+
                          '</div>'+
-                         '<div style="clear: both;"></div>'+
                          '<div id="editform'+notetext.pk+'" class="hidden">'+
                            '<form class="note-form" role="form" action="'+url_editNotetext+'" method=POST>'+
                             '<input type="hidden" name="csrfmiddlewaretoken" value="'+csrf_token+'" />'+
@@ -37,6 +36,7 @@ $(document).on('click', ".reply-button", function(){
                            '</form>'+
                            '<button class="edit-button">submit edit</button>'+
                          '</div>'+
+                         '<div style="clear: both;"></div>'+
                        '</div>'
          var el = $(html_txt);
          $("#replybox"+note_pk).append(el)
@@ -162,7 +162,6 @@ function createNote(note) {
                   '<a notepk="'+note.pk+'" pk="'+notetext.pk+'" class="delete-link">delete</a>&nbsp;'+
                   '<a pk="'+notetext.pk+'" class="edit-link">edit</a>'+
                 '</div>'+
-                '<div style="clear: both;"></div>'+
                 '<div id="editform'+notetext.pk+'" class="hidden">'+
                   '<form class="note-form" role="form" action="'+url_editNotetext+'" method=POST>'+
                     '<input type="hidden" name="csrfmiddlewaretoken" value="'+csrf_token+'" />'+
@@ -171,6 +170,7 @@ function createNote(note) {
                   '</form>'+
                   '<button class="edit-button">submit edit</button>'+
                 '</div>'+
+                '<div style="clear: both;"></div>'+
               '</div>'+
               '</div>'+
               '<div id="replyfooter"'+note.pk+'>'+
