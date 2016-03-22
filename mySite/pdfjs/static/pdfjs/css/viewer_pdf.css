@@ -53,3 +53,7 @@ textarea {
 body, html {
   overflow: scroll;
 }
+
+.hidden {
+  visibility:hidden;
+}
