@@ -63,8 +63,8 @@ def getNotesJson(request,document_pk):
                 'page_number':note.page_number,
                 'x_normalized_position':note.x_normalized_position,
                 'y_normalized_position':note.y_normalized_position,
-                'width':note.width,
-                'height':note.height,
+                'width_normalized':note.width_normalized,
+                'height_normalized':note.height_normalized,
                 'note_text':note_text,
                 }
         json_obj.append(obj)
@@ -92,8 +92,8 @@ def addNote(request):
         page_number = request.POST.get("page_number")
         x_normalized = request.POST.get("x_normalized")
         y_normalized = request.POST.get("y_normalized")
-        width = request.POST.get("width")
-        height = request.POST.get("height")
+        width_normalized = request.POST.get("width_normalized")
+        height_normalized = request.POST.get("height_normalized")
     else:
         return HttpResponse("Attempted to add note without POST")
     note = Note(user=user,
@@ -101,8 +101,8 @@ def addNote(request):
                 page_number=page_number,
                 x_normalized_position=x_normalized,
                 y_normalized_position=y_normalized,
-                width=width,
-                height=height,)
+                width_normalized=width_normalized,
+                height_normalized=height_normalized,)
     note.save()
     note.addText(user=user,text=form_text)
     note_obj = Note.getNoteJson(note)
@@ -141,14 +141,14 @@ def deleteNotetext(request):
 
 def resizeNote(request):
     if request.method == 'POST':
-        width = request.POST.get("width")
-        height = request.POST.get("height")
+        width_normalized = request.POST.get("width_normalized")
+        height_normalized = request.POST.get("height_normalized")
         note_pk = request.POST.get("note_pk")
     else:
         return HttpResponse("Attempted to resize note without POST")
     note = Note.objects.get(pk=note_pk)
-    note.width = width
-    note.height = height
+    note.width_normalized = width_normalized
+    note.height_normalized = height_normalized
     note.save()
     response = {}
     return JsonResponse(response)

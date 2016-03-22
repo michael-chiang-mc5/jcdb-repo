@@ -9,8 +9,8 @@ class Note(models.Model):
     page_number = models.PositiveIntegerField()
     x_normalized_position = models.FloatField()
     y_normalized_position = models.FloatField()
-    width = models.FloatField()
-    height = models.FloatField()
+    width_normalized = models.FloatField()
+    height_normalized = models.FloatField()
 
     def __str__(self):
         return str(self.page_number)
@@ -39,8 +39,8 @@ class Note(models.Model):
                 'page_number':note.page_number,
                 'x_normalized_position':note.x_normalized_position,
                 'y_normalized_position':note.y_normalized_position,
-                'width':note.width,
-                'height':note.height,
+                'width_normalized':note.width_normalized,
+                'height_normalized':note.height_normalized,
                 'note_text':note_text,
                 }
         return obj
