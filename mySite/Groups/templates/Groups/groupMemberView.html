@@ -1,0 +1,48 @@
+{% extends "MCBase/base.html" %}
+{% load staticfiles %}
+
+{% block javascript %}
+  <link rel="stylesheet" href="{% static 'Groups/css/index.css' %}">
+{% endblock %}
+
+{% block title %}
+  Groups
+{% endblock %}
+
+
+
+{% block body_block %}
+  <div id="header">
+    <div>
+      {{ group.name }}
+    </div>
+    <div>
+      {{ group.description}}
+    </div>
+  </div>
+
+  <div>
+    <a href="{% url 'Uploader:uploadInterface' group.pk %}">add new document</a>
+    <div id="document-list">
+      {% if documents %}
+        {% for document in documents %}
+          <div class="document">
+            <a href="{% url 'pdfjs:viewer' document.pk %}">
+              {{ document.docfile.name }}
+            </a>
+          </div>
+        {% endfor %}
+      {% else %}
+        No documents
+      {% endif %}
+    </div>
+  </div>
+
+
+  <div>
+    <a>upload paper</a>
+    {% if isModerator %}
+      <a href="{% url 'Groups:groupAdminPanel' group.pk %}">adminView</a>
+    {% endif %}
+  </div>
+{% endblock %}

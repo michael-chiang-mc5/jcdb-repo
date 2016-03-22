@@ -1,0 +1,20 @@
+{% extends "MCBase/base.html" %}
+{% load staticfiles %}
+
+{% block javascript %}
+  <link rel="stylesheet" href="{% static 'Uploader/css/list.css' %}">
+{% endblock %}
+
+{% block title %}
+  Uploader
+{% endblock %}
+
+
+
+{% block body_block %}
+
+  <!-- form to upload file -->
+  {% include "Uploader/uploadForm.html" %}
+
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "MCBase/base.html" %}
+{% load staticfiles %}
+
+{% block javascript %}
+  <link rel="stylesheet" href="{% static 'Groups/css/index.css' %}">
+{% endblock %}
+
+{% block title %}
+  Groups
+{% endblock %}
+
+
+
+{% block body_block %}
+  <form action="{% url 'Groups:addGroup' %}" method="POST">
+    {% csrf_token %}
+    group name: <input type="text" name="name"><br>
+    <input type="submit" value="Submit">
+  </form>
+{% endblock %}

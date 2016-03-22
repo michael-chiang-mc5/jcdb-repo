@@ -1,0 +1,33 @@
+{% extends "MCBase/base.html" %}
+{% load staticfiles %}
+
+{% block javascript %}
+  <link rel="stylesheet" href="{% static 'Groups/css/index.css' %}">
+{% endblock %}
+
+{% block title %}
+  Groups
+{% endblock %}
+
+
+
+{% block body_block %}
+  {% if request.user.is_authenticated %}
+    <div id="group-box">
+      <div>
+        <a href="{% url 'Groups:addGroupInterface' %}">Create a new group</a>
+      </div>
+      <div>
+        {% for group in groups %}
+          <div>
+            <a href="{% url 'Groups:groupMemberView' group.pk %}">
+              {{ group }}
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% else %}
+    You must log in to use jcdb
+  {% endif %}
+{% endblock %}
