@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'social.apps.django_app.default',
     'pdfjs',
     'myContent',
-    'Annotator',
     'Uploader',
     'MCBase',
 ]
