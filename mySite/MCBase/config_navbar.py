@@ -1,3 +1,3 @@
 website_name = "jcdb"
-left_side_nav = ['upload']
-left_side_href = ['Uploader:list']
+left_side_nav = ['groupManager']
+left_side_href = ['Groups:index']
