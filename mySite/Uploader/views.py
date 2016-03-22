@@ -4,20 +4,28 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
-
+from Groups.models import Group
 from .models import Document
 from .forms import DocumentForm
 
 import os
 from django.conf import settings
 
+def uploadInterface(request,group_pk):
+    context = {"group_pk":group_pk,}
+    return render(request, 'Uploader/uploadInterface.html',context)
+
 def upload(request):
-    # TODO: make sure user logged in
     # TODO: make sure file is pdf
-    f = request.FILES['docfile']
-    newdoc = Document(docfile = f)
-    newdoc.save()
-    return redirect(request.GET['next'])
+    if request.method == 'POST' and request.user.is_authenticated():
+        user = request.user
+        f = request.FILES['docfile']
+        group_pk = request.POST.get("group_pk")
+        next_url = request.POST.get("next_url")
+    document = Document(docfile = f)
+    document.group = Group.objects.get(pk=group_pk)
+    document.save()
+    return HttpResponseRedirect(next_url)
 
 def list(request):
     #root="/media/"

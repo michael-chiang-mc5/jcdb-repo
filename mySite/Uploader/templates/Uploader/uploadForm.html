@@ -1,7 +1,9 @@
 <!-- hidden form  -->
-<form action="{% url 'Uploader:upload' %}?next={{ request.path }}" method="POST" enctype="multipart/form-data">
+<form action="{% url 'Uploader:upload' %}" method="POST" enctype="multipart/form-data">
   {% csrf_token %}
-  <p>max. 42 megabytes</p>
+  <input type="hidden" name="group_pk" value="{{ group_pk }}" />
+  <input type="hidden" name="next_url" value="{% url 'Groups:groupMemberView' group_pk %}" />
+  <p>max. 50 megabytes</p>
   <p>
     <input id="id_docfile" name="docfile" type="file" />
   </p>
