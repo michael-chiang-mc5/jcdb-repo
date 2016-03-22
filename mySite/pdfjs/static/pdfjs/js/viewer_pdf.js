@@ -99,6 +99,12 @@ $(document).bind('pagerendered', function (e) {
   renderNotes(page_number);
 });
 
+function get_scaled_font_size(page_width) {
+  var page_width_at_100 = 793.545453333
+  var multiplier = page_width/page_width_at_100
+  return multiplier
+}
+
 
 // On double click, place a note element on the page. This note can submit a
 // post form
@@ -135,6 +141,7 @@ $(document).ready(function() {
       page.append(d)
       d.css({top: y, left: x });
       d.draggable()
+      console.log("page width = "+page_width)
     }
   });
 });
@@ -256,7 +263,7 @@ function renderNotes(page_number) {
   }
 }
 
-
+window.baseFontSize = 100 // units is %
 // render a single note object. This function will not work properly
 // if corresponding canvas has not been rendered
 // Usage: note_obj.page_number
@@ -288,6 +295,10 @@ function renderNote(note_obj) {
   d.css({top: y, left: x });
   var resizable = d.children( ".resizable" )
   resizable.css({'width':width_normalized*page_width,'height':height_normalized*page_height})
+  var font_multiplier = get_scaled_font_size(page_width)
+  console.log("font_multiplier="+font_multiplier)
+  console.log(baseFontSize*font_multiplier+"%")
+  resizable.css({'font-size':baseFontSize*font_multiplier+"%"})
   d.draggable({
     // http://api.jqueryui.com/draggable/
     stop: function( event, ui ) {
