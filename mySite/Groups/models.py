@@ -5,6 +5,9 @@ class Group(models.Model):
     name = models.TextField()
     description = models.TextField(blank=True)
     time = models.DateTimeField(auto_now_add=True)
+    password = models.TextField(blank=True)
+    openForNewMembers = models.BooleanField(default=True)
+    uploadApprovalRequired = models.BooleanField(default=False)
 
     admins     = models.ManyToManyField(User, blank=True, related_name="admin_of_groups")
     moderators = models.ManyToManyField(User, blank=True, related_name="mod_of_groups")
