@@ -1,4 +1,4 @@
-{% extends "MCBase/base.html" %}
+{% extends "MCBase/base-extended.html" %}
 {% load staticfiles %}
 
 {% block javascript %}
@@ -10,9 +10,64 @@
 {% endblock %}
 
 {% block body_block %}
-  <div class="content">
-    Welcome. <br />
-    JournalClubDB is a site where users can collaboratively annotate pdfs. <br />
-    To get started, login by clicking the button at the top right.
-  </div>
+  <!--
+  This file is modified from: http://blackrockdigital.github.io/startbootstrap-landing-page/
+  under the terms of the MIT license. License is include below
+  The MIT License (MIT)
+  Copyright (c) 2013-2016 Blackrock Digital LLC.
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+  -->
+  <div class="intro-header full-page">
+        <div class="container full-page">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="intro-message">
+                        <h1>journalClubDB</h1>
+                        <h3>collaborative pdf annotation</h3>
+                        <hr class="intro-divider">
+                        <h5>Log in with social media</h3>
+                        <ul class="list-inline intro-social-buttons">
+                            <li>
+                                <a href="{% url 'social:begin' backend='google-oauth2' %}?next={{ request.get_full_path }}" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">google</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url 'social:begin' backend='facebook' %}?next={{ request.get_full_path }}" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">facebook</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url 'social:begin' backend='twitter' %}?next={{ request.get_full_path }}" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i> <span class="network-name">twitter</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+
+    <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ul class="list-inline center">
+                            <li class="footer-menu-divider">⋅</li>
+                            <li>
+                                <a href="http://www.michael-chiang.com/contact/">Contact</a>
+                            </li>
+                            <li class="footer-menu-divider">⋅</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
 {% endblock %}

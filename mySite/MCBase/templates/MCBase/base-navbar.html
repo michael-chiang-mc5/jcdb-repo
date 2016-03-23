@@ -4,12 +4,12 @@
 
 <link rel="stylesheet" href="{% static 'MCBase/css/base-navbar.css' %}">
 
-<nav class="navbar navbar-default navbar-static-top"> <!-- for example navbars, see: https://getbootstrap.com/examples/navbar-fixed-top/ -->
-  <div class="container">
+<nav class="navbar navbar-default navbar-static-top full-width-navbar"> <!-- for example navbars, see: https://getbootstrap.com/examples/navbar-fixed-top/ -->
+  <div class="container full-width-navbar">
 
       <!-- logo -->
-      <div class="navbar-header">
-        <a class="navbar-brand" href="#">{{ website_name }}</a> <!-- TODO: This should be changed to your website name -->
+      <div class="navbar-header navbar-font1">
+        <a class="navbar-brand" href="#">{{ website_name }}</a>
       </div>
 
       <!-- left-side navbar -->
@@ -23,7 +23,7 @@
         {% endif %}
 
         <!-- right-side navbar -->
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar-right navbar-font1">
           {% if user.is_authenticated %}
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ user.get_username }}<span class="caret"></span>
@@ -34,7 +34,7 @@
             </li>
 
           {% else %}
-            <li class="active cursor-pointer"><a class="toggle-login-modal" data-toggle="modal" data-target="#social-auth-modal">Login</a></li>
+            <li class="cursor-pointer"><a class="toggle-login-modal" data-toggle="modal" data-target="#social-auth-modal">Login</a></li>
           {% endif %}
         </ul>
 
