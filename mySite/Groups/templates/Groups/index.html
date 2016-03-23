@@ -3,6 +3,7 @@
 
 {% block javascript %}
   <link rel="stylesheet" href="{% static 'Groups/css/index.css' %}">
+  <script src="{% static 'Groups/js/index.js' %}"></script>
 {% endblock %}
 
 {% block title %}
@@ -12,18 +13,75 @@
 
 
 {% block body_block %}
-  <div id="group-box">
-    <div>
-      <a href="{% url 'Groups:addGroupInterface' %}">Create a new group</a>
-    </div>
-    <div>
-      {% for group in groups %}
+  <div class="row">
+
+    <!-- group box -->
+    <div id="group-box" class="box col-sm-4">
+      <h1>Groups<sup><a data-toggle="tooltip" data-placement="right" class="pointer"
+                        title="You share and collaboratively annotate papers with
+                               members of your group.">
+                        what is this?</a></sup></h1>
+      {% if groups %}
         <div>
-          <a href="{% url 'Groups:groupMemberView' group.pk %}">
-            {{ group }}
-          </a>
+          <a href="{% url 'Groups:addGroupInterface' %}">Create a new group</a>
         </div>
-      {% endfor %}
+        <div>
+          {% for group in groups %}
+            <div>
+              <a href="{% url 'Groups:groupMemberView' group.pk %}">
+                {{ group }}
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="small-box">
+          You aren't in any groups. Click <a href="{% url 'Groups:addGroupInterface' %}">here</a>
+          to create a new group.
+        </div>
+      {% endif %}
     </div>
+
+    <!-- paper box -->
+    <div class="col-sm-4">
+        <div id="paper-box" class="box">
+          <h1>Papers</h1>
+          {% if documents %}
+            {% for document in documents %}
+              <div>
+                <a href="{% url 'pdfjs:viewer' document.pk %}">
+                  {{ document.getTitle }}
+                </a>
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="small-box">
+              You don't have any papers. Join or create a new group to add papers.
+            </div>
+          {% endif %}
+        </div>
+    </div>
+
+    <!-- notification box -->
+    <div id="notification-box" class="box col-sm-4">
+      <h1>Notifications</h1>
+      {% if notifications %}
+        {% for notification in notifications %}
+          <div class="small-box">
+            {{ notification.text|safe }}
+            <div class="small-box-footer">
+              <a href="{% url 'UserProfiles:deleteNotification' notification.pk %}">
+                delete
+              </a>
+            </div>
+          <div>
+        {% endfor %}
+      {% else %}
+        <div class="small-box">
+          No new notifications.
+        </div>
+      {% endif %}
+    </div>
+
   </div>
 {% endblock %}

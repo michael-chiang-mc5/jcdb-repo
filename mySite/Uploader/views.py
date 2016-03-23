@@ -22,7 +22,7 @@ def upload(request):
         f = request.FILES['docfile']
         group_pk = request.POST.get("group_pk")
         next_url = request.POST.get("next_url")
-    document = Document(docfile = f)
+    document = Document(docfile = f, user=user)
     document.group = Group.objects.get(pk=group_pk)
     document.save()
     return HttpResponseRedirect(next_url)

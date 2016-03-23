@@ -4,6 +4,7 @@ from .models import *
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from Uploader.models import Document
+from UserProfiles.models import *
 
 def index(request):
     if request.user.is_authenticated():
@@ -11,8 +12,20 @@ def index(request):
         # get groups that user is a member of
         groups = Group.get_groups_that_user_is_member_of(user)
         groups = groups.order_by('-time') # newest groups at the top
+        # get papers that user can access
+        documents = None
+        for group in groups:
+            if documents is None:
+                documents = group.document_set.all()
+            else:
+                documents = documents | group.document_set.all()
+        if documents:
+            documents = documents.order_by('-time') # newest documents at the top
+        # get notifications
+        notifications = Notification.get(user)
+
         # return html
-        context = {'groups':groups}
+        context = {'groups':groups,'documents':documents,'notifications':notifications}
         return render(request, 'Groups/index.html', context)
     else:
         return HttpResponseRedirect(reverse('myContent:index'))
@@ -25,7 +38,7 @@ def addGroup(request):
     # check for user authentication, POST
     if request.method == 'POST' and request.user.is_authenticated():
         name = request.POST.get("name")
-        password = requets.POST.get("password")
+        password = request.POST.get("password")
         user = request.user
     else:
         return HttpResponse("Attempted to make group without authentication or POST")
