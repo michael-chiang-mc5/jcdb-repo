@@ -46,6 +46,25 @@ h1 sup {
 }
 
 hr {
+  border-top: 1px solid black;
   margin-top: 0px;
   margin-bottom: 0px;
+}
+
+.tooltip {
+  outline: none;
+  position: relative;
+  width: 75px;
+  min-width: 175px;
+  max-width: 255px;
+}
+
+.tooltip .tool-content {
+  margin:0;
+  padding:0;
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  width:100%;
+  height:100%;
 }

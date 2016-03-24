@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from Uploader.models import Document
 from UserProfiles.models import *
+from django.conf import settings
+import os
 
 def index(request):
     if request.user.is_authenticated():
@@ -88,7 +90,6 @@ def changeUploadApprovalRequired(request,group_pk):
 def groupAdminPanel(request,group_pk):
     group = Group.objects.get(pk=group_pk)
     context = {"group":group,}
-    return render(request, 'Groups/addGroupInterface.html', context)
     return HttpResponse("admin panel")
 # only group members can see group view
 def groupMemberView(request,group_pk):
@@ -98,3 +99,12 @@ def groupMemberView(request,group_pk):
     documents = Document.objects.all()
     context = {'group':group,'isModerator':isModerator,'documents':documents}
     return render(request, 'Groups/groupMemberView.html', context)
+
+# only moderators and admins can delete documents
+def deleteDocument(request,document_pk):
+    doc = Document.objects.get(pk=document_pk)
+    url = reverse('Groups:groupMemberView',args=[doc.group.pk])
+    file_path=settings.MEDIA_ROOT
+    os.remove(file_path+'/'+doc.docfile.name)
+    doc.delete()
+    return HttpResponseRedirect(url)

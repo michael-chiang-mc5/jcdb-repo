@@ -3,11 +3,10 @@
   {% csrf_token %}
   <input type="hidden" name="group_pk" value="{{ group_pk }}" />
   <input type="hidden" name="next_url" value="{% url 'Groups:groupMemberView' group_pk %}" />
-  <p>max. 50 megabytes</p>
   <p>
-    <input id="id_docfile" name="docfile" type="file" />
+    <input id="id_docfile" name="docfile" type="file" accept=".pdf" />
   </p>
   <p>
-    <input type="submit" value="Upload" />
+    <input class="btn btn-primary" role="button" type="submit" value="Upload" />
   </p>
 </form>

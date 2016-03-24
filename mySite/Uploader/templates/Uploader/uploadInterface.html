@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block javascript %}
-  <link rel="stylesheet" href="{% static 'Uploader/css/list.css' %}">
+  <link rel="stylesheet" href="{% static 'Uploader/css/uploadInterface.css' %}">
 {% endblock %}
 
 {% block title %}
@@ -12,9 +12,10 @@
 
 
 {% block body_block %}
-
-  <!-- form to upload file -->
-  {% include "Uploader/uploadForm.html" %}
-
+  <div class="box">
+    <h1>Upload a pdf</h1>
+    <p>max. 50 megabytes</p>
+    {% include "Uploader/uploadForm.html" %}
+  </div>
 
 {% endblock %}

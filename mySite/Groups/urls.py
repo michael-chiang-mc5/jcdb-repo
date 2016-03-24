@@ -21,4 +21,6 @@ urlpatterns = [
     url(r'^changeGroupPassword/(?P<group_pk>[0-9]+)/$', views.changeGroupPassword, name='changeGroupPassword'),
     url(r'^changeAcceptingNewMembers/(?P<group_pk>[0-9]+)/$', views.changeAcceptingNewMembers, name='changeAcceptingNewMembers'),
     url(r'^changeUploadApprovalRequired/(?P<group_pk>[0-9]+)/$', views.changeUploadApprovalRequired, name='changeUploadApprovalRequired'),
+
+    url(r'^deleteDocument/(?P<document_pk>[0-9]+)/$', views.deleteDocument, name='deleteDocument'),
 ]

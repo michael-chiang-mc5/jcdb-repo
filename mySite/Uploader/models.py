@@ -17,3 +17,6 @@ class Document(models.Model):
     def getTitle(self):
         if not self.title:
             return self.docfile.name[2:]
+    def get_user_alias(self):
+        userprofile = self.user.userprofile_set.all()[0]
+        return userprofile.getName()

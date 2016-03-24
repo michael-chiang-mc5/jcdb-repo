@@ -1,8 +1,10 @@
 {% extends "MCBase/base.html" %}
 {% load staticfiles %}
+{% load MCBase_templatetags %}
 
 {% block javascript %}
-  <link rel="stylesheet" href="{% static 'Groups/css/index.css' %}">
+  <link rel="stylesheet" href="{% static 'Groups/css/groupMemberView.css' %}">
+  <script src="{% static 'Groups/js/groupMemberInterface.js' %}"></script>
 {% endblock %}
 
 {% block title %}
@@ -12,37 +14,71 @@
 
 
 {% block body_block %}
+<div class="box">
   <div id="header">
-    <div>
+    <h1>
       {{ group.name }}
-    </div>
-    <div>
-      {{ group.description}}
-    </div>
+    </h1>
+    {% if group.description|length != 0 %}
+      <div class="group-description">
+        {{ group.description}}
+      </div>
+    {% endif %}
+    <a class="btn btn-primary" role="button" href="{% url 'Uploader:uploadInterface' group.pk %}">add new paper</a>
+    {% if isModerator %}
+      <a class="btn btn-primary" role="button" href="{% url 'Groups:groupAdminPanel' group.pk %}">administration tools</a>
+    {% endif %}
   </div>
-
+  <div class="vertical-spacer"></div>
+  <hr />
   <div>
-    <a href="{% url 'Uploader:uploadInterface' group.pk %}">add new document</a>
     <div id="document-list">
+      <div class="vertical-spacer"></div>
       {% if documents %}
         {% for document in documents %}
-          <div class="document">
+          <div class="small-box">
+            <div class="small-box-header">
+              {{ document.get_user_alias }}, {{ document.time|age }}
+            </div>
             <a href="{% url 'pdfjs:viewer' document.pk %}">
-              {{ document.docfile.name }}
+              {{ document.getTitle }}
             </a>
+            {% if document.description|length != 0 %}
+            <hr />
+            <div class="document-description">
+              {{ document.description }}
+            </div>
+            {% endif %}
+
+            <div class="small-box-footer">
+              [<a href="{{ document.docfile.url }}" download>
+                download
+              </a>]
+              &nbsp; &nbsp; &nbsp;
+            {% if isModerator or document.user.pk == request.user.pk %}
+              [<a href="{% url 'pdfjs:viewer' document.pk %}">
+                admin tools
+              </a>]
+              &nbsp; &nbsp; &nbsp;
+              [<a href="{% url 'Groups:deleteDocument' document.pk %}">
+                delete
+              </a>]
+            {% endif %}
+          </div>
+
+
           </div>
         {% endfor %}
       {% else %}
-        No documents
+        <div class="vertical-spacer"></div>
+        <div class="small-box">
+          No shared papers in the group. Why don't you try <a href="{% url 'Uploader:uploadInterface' group.pk %}">uploading</a>
+          a paper.
+        </a>
       {% endif %}
     </div>
   </div>
 
 
-  <div>
-    <a>upload paper</a>
-    {% if isModerator %}
-      <a href="{% url 'Groups:groupAdminPanel' group.pk %}">adminView</a>
-    {% endif %}
-  </div>
+</div>
 {% endblock %}

@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block javascript %}
-  <link rel="stylesheet" href="{% static 'Groups/css/index.css' %}">
+  <link rel="stylesheet" href="{% static 'Groups/css/addGroupInterface.css' %}">
 {% endblock %}
 
 {% block title %}
@@ -12,10 +12,28 @@
 
 
 {% block body_block %}
-  <form action="{% url 'Groups:addGroup' %}" method="POST">
-    {% csrf_token %}
-    group name: <input type="text" name="name"><br>
-    password: <input type="text" name="password"><br>
-    <input type="submit" value="Submit">
-  </form>
+  <div class="box">
+    <h1>Create a new group</h1>
+    <form action="{% url 'Groups:addGroup' %}" method="POST">
+      {% csrf_token %}
+      <div class="small-box">
+        <div>
+          group name:
+          <input pattern=".{1,50}" required title="1 to 50 characters" type="text" name="name"><br>
+        </div>
+      </div>
+      <div class="small-box">
+        <div>
+          secret key: &nbsp;
+          <input type="text" name="password"><br>
+        </div>
+        <div class="small-box-footer">
+          Do <b>NOT</b> use a sensitive password as your secret key <br />
+          (i.e., no bank account passwords). This secret key will be <br />
+          sent to people who you want to invite into your group.
+        </div>
+      </div>
+      <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+  </div>
 {% endblock %}

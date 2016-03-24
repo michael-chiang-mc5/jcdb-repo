@@ -8,9 +8,6 @@ from Groups.models import Group
 from .models import Document
 from .forms import DocumentForm
 
-import os
-from django.conf import settings
-
 def uploadInterface(request,group_pk):
     context = {"group_pk":group_pk,}
     return render(request, 'Uploader/uploadInterface.html',context)
@@ -26,25 +23,3 @@ def upload(request):
     document.group = Group.objects.get(pk=group_pk)
     document.save()
     return HttpResponseRedirect(next_url)
-
-def list(request):
-    #root="/media/"
-    #Path=settings.MEDIA_ROOT
-    #os.chdir(Path)
-    #for files in os.listdir("."):
-    #    if files[-3:].lower() in ["gif","png","jpg","bmp"] :
-    #        return HttpResponse(files)
-
-
-    documents = Document.objects.all().order_by('-time')
-    context = {'documents':documents}
-    return render(request, 'Uploader/list.html',context)
-
-
-def delete(request,document_pk):
-
-    doc = Document.objects.get(pk=document_pk)
-    file_path=settings.MEDIA_ROOT
-    os.remove(file_path+'/'+doc.docfile.name)
-    doc.delete()
-    return HttpResponseRedirect( reverse('Uploader:list') )

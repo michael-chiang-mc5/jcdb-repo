@@ -25,12 +25,20 @@
         <div>
           <a href="{% url 'Groups:addGroupInterface' %}">Create a new group</a>
         </div>
+        <div class="vertical-spacer"></div>
         <div>
           {% for group in groups %}
-            <div>
+            <div class="small-box">
               <a href="{% url 'Groups:groupMemberView' group.pk %}">
                 {{ group }}
               </a>
+              {% if group.description|length != 0 %}
+                <hr />
+                <div class="group-description">
+                  {{ group.description }}
+                  aa
+                </div>
+              {% endif %}
             </div>
           {% endfor %}
         </div>
