@@ -5,8 +5,8 @@ from .models import *
 
 def new_user(request):
     user = request.user
-    userProfile = UserProfile(user=user,alias=user.get_username())
-    userProfile.save()
+    userprofile = UserProfile(user=user,alias=user.username)
+    userprofile.save()
     new_notification_text = 'Welcome to journalClubDB<br /> \
                             ';
     notification = Notification.constructor(user,new_notification_text)

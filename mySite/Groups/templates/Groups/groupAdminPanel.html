@@ -71,13 +71,59 @@
     <br />
     <a pk="{{group.pk}}" class="edit-link pointer">click to edit</a>
     <div class="editform" style="display: none;">
-      <div class=small-box>
-        {% for user in users %}
-          <div>
-            {{ user.username }}
-          </div>
-        {% endfor %}
+
+      {% for admin in admins %}
+        <div class="small-box">
+          <form style="margin: 5; padding: 5;" action="{% url 'Groups:changePermissions' admin.pk group.pk %}" method="POST">
+            {% csrf_token %}
+            {{ admin.userprofile.getName }}:
+            Administrator
+            <span style="float:right">
+              <input type="radio" name="permission" value="admin" checked> administrator &nbsp; &nbsp; &nbsp;
+              <input type="radio" name="permission" value="moderator"> moderator &nbsp; &nbsp; &nbsp;
+              <input type="radio" name="permission" value="member"> member &nbsp; &nbsp; &nbsp;
+              <input type="radio" name="permission" value="remove"> remove &nbsp; &nbsp; &nbsp;
+              <button class="btn-sm btn-primary" type="submit">change</button>
+            </span>
+          </form>
+        </div>
+    {% endfor %}
+
+    {% for moderator in moderators %}
+      <div class="small-box">
+        <form style="margin: 5; padding: 5;" action="{% url 'Groups:changePermissions' moderator.pk group.pk %}" method="POST">
+          {% csrf_token %}
+          {{ moderator.userprofile.getName }}:
+          Moderator
+          <span style="float:right">
+            <input type="radio" name="permission" value="admin"> administrator &nbsp; &nbsp; &nbsp;
+            <input type="radio" name="permission" value="moderator" checked> moderator &nbsp; &nbsp; &nbsp;
+            <input type="radio" name="permission" value="member"> member &nbsp; &nbsp; &nbsp;
+            <input type="radio" name="permission" value="remove"> remove &nbsp; &nbsp; &nbsp;
+            <button class="btn-sm btn-primary" type="submit">change</button>
+          </span>
+        </form>
       </div>
+  {% endfor %}
+
+  {% for member in members %}
+    <div class="small-box">
+      <form style="margin: 5; padding: 5;" action="{% url 'Groups:changePermissions' member.pk group.pk %}" method="POST">
+        {% csrf_token %}
+        {{ member.userprofile.getName }}:
+        Member
+        <span style="float:right">
+          <input type="radio" name="permission" value="admin"> administrator &nbsp; &nbsp; &nbsp;
+          <input type="radio" name="permission" value="moderator"> moderator &nbsp; &nbsp; &nbsp;
+          <input type="radio" name="permission" value="member" checked> member &nbsp; &nbsp; &nbsp;
+          <input type="radio" name="permission" value="remove"> remove &nbsp; &nbsp; &nbsp;
+          <button class="btn-sm btn-primary" type="submit">change</button>
+        </span>
+      </form>
+    </div>
+  {% endfor %}
+
+
     </div>
   </div>
 

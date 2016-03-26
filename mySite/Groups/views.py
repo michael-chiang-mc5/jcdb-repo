@@ -78,15 +78,35 @@ def joinGroup(request,group_pk):
     else:
         context = {'group':group,'incorrect_password':True}
         return render(request,'Groups/joinGroupInterface.html',context)
-def makeUserAdmin(request,user_pk,group_pk):
-    pass
-def makeUserModerator(request,user_pk,group_pk):
-    pass
-def makeUserMember(request,user_pk,group_pk):
-    pass
-# both moderator and self can remove given user
-def makeUserRemoved(request,user_pk,group_pk):
-    pass
+
+# only admin can change permission
+def changePermissions(request,user_pk,group_pk):
+    # check for user authentication, POST
+    if request.method == 'POST' and request.user.is_authenticated():
+        group = Group.objects.get(pk=group_pk)
+        user = User.objects.get(pk=user_pk)
+        permission = request.POST.get("permission")
+    else:
+        return HttpResponse("No authentication or POST")
+    #
+    if permission == "admin":
+        group.members.add(user)
+        group.moderators.add(user)
+        group.admins.add(user)
+    elif permission == "moderator":
+        group.members.add(user)
+        group.moderators.add(user)
+        group.admins.remove(user)
+    elif permission == "member":
+        group.members.add(user)
+        group.moderators.remove(user)
+        group.admins.remove(user)
+    elif permission == "remove":
+        group.members.remove(user)
+        group.moderators.remove(user)
+        group.admins.remove(user)
+    return HttpResponseRedirect(reverse('Groups:groupAdminPanel',args=[group.pk]))
+
 # only admin can change group name
 def changeGroupName(request,group_pk):
     # check for user authentication, POST
@@ -123,9 +143,10 @@ def changeUploadApprovalRequired(request,group_pk):
 # only moderators and admins can see admin panel
 def groupAdminPanel(request,group_pk):
     group = Group.objects.get(pk=group_pk)
-    users = group.members.all()
-    #usermethods = UserMethods.objects.
-    context = {"group":group,"users":users}
+    admins = group.admins.all()
+    moderators = group.moderators.exclude(id__in=admins)
+    members = group.members.exclude(id__in=admins).exclude(id__in=moderators)
+    context = {"group":group,"admins":admins,"moderators":moderators,"members":members}
     return render(request, 'Groups/groupAdminPanel.html', context)
 # only moderators and admins can see admin panel
 def documentAdminPanel(request,document_pk):
@@ -136,10 +157,11 @@ def documentAdminPanel(request,document_pk):
 # only group members can see group view
 def groupMemberView(request,group_pk):
     group = Group.objects.get(pk=group_pk)
-    isModerator = group.is_moderator_or_admin(request.user)
+    isModerator = group.is_moderator(request.user)
+    isAdmin = group.is_admin(request.user)
     documents = group.document_set.all()
     documents = documents.order_by('-time') # newest documents at the top
-    context = {'group':group,'isModerator':isModerator,'documents':documents}
+    context = {'group':group,'isModerator':isModerator,'isAdmin':isAdmin,'documents':documents}
     return render(request, 'Groups/groupMemberView.html', context)
 
 # only moderators and admins can delete documents

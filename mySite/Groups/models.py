@@ -18,7 +18,9 @@ class Group(models.Model):
         return str(self.name)
     def get_groups_that_user_is_member_of(user):
         return user.member_of_groups.all()
-    def is_moderator_or_admin(self,user):
-        isAdmin = self.admins.filter(pk=user.pk).exists()
+    def is_moderator(self,user):
         isModerator = self.moderators.filter(pk=user.pk).exists()
-        return isAdmin or isModerator
+        return isModerator
+    def is_admin(self,user):
+        isAdmin = self.admins.filter(pk=user.pk).exists()
+        return isAdmin
