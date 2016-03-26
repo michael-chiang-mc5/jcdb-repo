@@ -32,7 +32,7 @@
             {{ notetext.text }}
           </div>
           <div class="signature left">
-            --{{ notetext.user.username }}, {{ notetext.time|age }}
+            --{{ notetext.user.userprofile.getName }}, {{ notetext.time|age }}
           </div>
           {% if request.user.pk == notetext.user.pk %}
             <div class="right signature edit_button">

@@ -54,7 +54,7 @@ def getNotesJson(request,document_pk):
         notetexts = note.notetext_set.all() # TODO: sort by time
         note_text = []
         for notetext in notetexts:
-            obj2 = {'user':notetext.user.username,
+            obj2 = {'user':notetext.user.userprofile.getName,
                     'time':notetext.time,
                     'text':notetext.text,
                     }

@@ -28,6 +28,7 @@
     {% if isAdmin %}
       <a class="btn btn-primary" role="button" href="{% url 'Groups:groupAdminPanel' group.pk %}">administration tools</a>
     {% endif %}
+    <a style="float: right;" class="btn btn-danger" role="button" href="{% url 'Groups:removeSelfFromGroup' group.pk %}">remove self from group</a>
   </div>
   <div class="vertical-spacer"></div>
   <hr />

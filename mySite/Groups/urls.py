@@ -22,5 +22,5 @@ urlpatterns = [
 
     url(r'^deleteDocument/(?P<document_pk>[0-9]+)/$', views.deleteDocument, name='deleteDocument'),
     url(r'^sendNotification/(?P<group_pk>[0-9]+)/$', views.sendNotification, name='sendNotification'),
-
+    url(r'^removeSelfFromGroup/(?P<group_pk>[0-9]+)/$', views.removeSelfFromGroup, name='removeSelfFromGroup'),
 ]

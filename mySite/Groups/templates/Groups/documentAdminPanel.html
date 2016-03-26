@@ -44,7 +44,7 @@
           Hi all,<br />
           Check out the new paper:<br />
           <a href="{% url 'pdfjs:viewer' document.pk %}">{{ document.getTitle }}</a><br>
-          --{{ request.user.username }}
+          --{{ request.user.userprofile.getName }}
         </div>
         <input type="hidden" name="next_url" value="{{ request.path }}" />
         <textarea id="notification-text" name="form_text" style="display:none"></textarea>

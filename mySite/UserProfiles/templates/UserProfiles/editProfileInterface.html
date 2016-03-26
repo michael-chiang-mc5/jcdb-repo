@@ -1,0 +1,42 @@
+{% extends "MCBase/base.html" %}
+{% load staticfiles %}
+
+{% block javascript %}
+  <link rel="stylesheet" href="{% static 'Groups/css/adminTools.css' %}">
+  <script src="{% static 'Groups/js/groupAdminPanel.js' %}"></script>
+{% endblock %}
+
+{% block title %}
+  Edit profile
+{% endblock %}
+
+
+
+{% block body_block %}
+  <h1>
+    <a href="{% url 'myContent:index' %}">
+      Back to index
+    </a>
+  </h1>
+
+  <div class=box>
+    <b>Alias:</b>
+    <br />
+    {{ request.user.userprofile.getName }}
+    <br />
+    <a pk="{{group.pk}}" class="edit-link pointer">click to edit</a>
+    <div class="editform" style="display: none;">
+      <div>
+        Your alias is what other people will see when they look at your comments, etc.
+      </div>
+      <form class="note-form" role="form" action="{% url 'UserProfiles:editAlias' %}" method=POST>
+        {% csrf_token %}
+        <textarea name="form_text" rows="1">{{ user.userprofile.getName }}</textarea>
+        <button class="btn btn-primary" type="submit">submit edit</button>
+      </form>
+    </div>
+  </div>
+
+
+
+{% endblock %}

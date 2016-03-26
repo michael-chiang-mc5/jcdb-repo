@@ -51,6 +51,13 @@ def addGroup(request):
     group.moderators.add(user)
     group.members.add(user)
     return HttpResponseRedirect(reverse('Groups:groupMemberView',args=[group.pk]))
+def removeSelfFromGroup(request,group_pk):
+    group = Group.objects.get(pk=group_pk)
+    group.admins.remove(request.user)
+    group.moderators.remove(request.user)
+    group.members.remove(request.user)
+    return HttpResponseRedirect(reverse('myContent:index'))
+
 # only admins can delete group
 def deleteGroup(request,group_pk):
     group = Group.objects.get(pk=group_pk)
