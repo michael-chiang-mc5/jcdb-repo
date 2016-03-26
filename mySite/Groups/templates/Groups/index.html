@@ -17,15 +17,20 @@
 
     <!-- group box -->
     <div id="group-box" class="box col-sm-4">
-      <h1>Groups<sup><a data-toggle="tooltip" data-placement="right" class="pointer"
-                        title="You share and collaboratively annotate papers with
-                               members of your group.">
-                        what is this?</a></sup></h1>
+      <h1>Groups
+      <!--
+      <sup><a data-toggle="tooltip" data-placement="right" class="pointer"
+                      title="You share and collaboratively annotate papers with
+                             members of your group.">
+                      what is this?</a></sup>
+      -->
+      <sup>
+        <a href="{% url 'Groups:addGroupInterface' %}">Create a new group</a>
+      </sup>
+
+      </h1>
       {% if groups %}
-        <div>
-          <a href="{% url 'Groups:addGroupInterface' %}">Create a new group</a>
-        </div>
-        <div class="vertical-spacer"></div>
+
         <div>
           {% for group in groups %}
             <div class="small-box">
