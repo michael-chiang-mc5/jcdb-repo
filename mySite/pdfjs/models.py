@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from Uploader.models import Document
+from UserProfiles.models import UserProfile
 
 class Note(models.Model):
     user = models.ForeignKey(User)

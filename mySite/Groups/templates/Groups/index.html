@@ -56,7 +56,7 @@
           <h1>Papers</h1>
           {% if documents %}
             {% for document in documents %}
-              <div>
+              <div class="small-box">
                 <a href="{% url 'pdfjs:viewer' document.pk %}">
                   {{ document.getTitle }}
                 </a>
@@ -82,7 +82,7 @@
                 delete
               </a>
             </div>
-          <div>
+          </div>
         {% endfor %}
       {% else %}
         <div class="small-box">

@@ -13,10 +13,13 @@ class Document(models.Model):
     authors = models.TextField(blank=True,null=True)
     journal = models.TextField(blank=True,null=True)
     year = models.IntegerField(blank=True,null=True)
-
+    abstract = models.TextField(blank=True,null=True)
+    
     def getTitle(self):
         if not self.title:
             return self.docfile.name[2:]
+        else:
+            return self.title
     def get_user_alias(self):
         userprofile = self.user.userprofile_set.all()[0]
         return userprofile.getName()

@@ -56,12 +56,8 @@
               </a>]
               &nbsp; &nbsp; &nbsp;
             {% if isModerator or document.user.pk == request.user.pk %}
-              [<a href="{% url 'pdfjs:viewer' document.pk %}">
+              [<a href="{% url 'Groups:documentAdminPanel' document.pk %}">
                 admin tools
-              </a>]
-              &nbsp; &nbsp; &nbsp;
-              [<a href="{% url 'Groups:deleteDocument' document.pk %}">
-                delete
               </a>]
             {% endif %}
           </div>

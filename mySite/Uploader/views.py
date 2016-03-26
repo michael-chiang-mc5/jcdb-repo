@@ -23,3 +23,14 @@ def upload(request):
     document.group = Group.objects.get(pk=group_pk)
     document.save()
     return HttpResponseRedirect(next_url)
+
+# make sure user is mod or admin
+def editTitle(request,document_pk):
+    if request.method == 'POST' and request.user.is_authenticated():
+        form_text = request.POST.get("form_text")
+    else:
+        return HttpResponse("No POST request")
+    document = Document.objects.get(pk=document_pk)
+    document.title = form_text
+    document.save()
+    return HttpResponseRedirect(reverse('Groups:documentAdminPanel',args=[document.pk]))

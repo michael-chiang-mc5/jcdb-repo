@@ -1,0 +1,51 @@
+{% extends "MCBase/base.html" %}
+{% load staticfiles %}
+
+{% block javascript %}
+  <link rel="stylesheet" href="{% static 'Uploader/css/uploadInterface.css' %}">
+{% endblock %}
+
+{% block title %}
+  join group
+{% endblock %}
+
+
+
+{% block body_block %}
+{% if request.user.is_authenticated %}
+  <div class="box">
+    <h1><b>{{ group.name }}</b></h1>
+    <form action="{% url 'Groups:joinGroup' group.pk %}" method="POST">
+      {% csrf_token %}
+      <div class="small-box">
+          secret key: &nbsp;
+          <input type="text" name="password">
+          {% if incorrect_password %}
+            <span style="color: red;">incorrect password</span>
+          {% endif %}
+      </div>
+      <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+  </div>
+{% else %}
+  You must log in before joining
+  <div class="modal-body">
+
+  <div class="row center-text">
+    <a class="socialAuthModal-link" href="/login/google-oauth2/?next={% url 'Groups:joinGroup' group.pk %}">
+      <img height="150" src="/static/MCBase/images/google-icon.png" alt="Log in with google!">
+    </a>
+    <a class="socialAuthModal-link" href="/login/facebook/?next={% url 'Groups:joinGroup' group.pk %}">
+      <img height="150" src="/static/MCBase/images/facebook-icon.png" alt="Log in with facebook!">
+    </a>
+
+    <a class="socialAuthModal-link" href="/login/twitter/?next={% url 'Groups:joinGroup' group.pk %}">
+      <img height="150" src="/static/MCBase/images/twitter-icon.png" alt="Log in with twitter!">
+    </a>
+  </div>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

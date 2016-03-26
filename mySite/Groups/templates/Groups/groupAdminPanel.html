@@ -1,0 +1,92 @@
+{% extends "MCBase/base.html" %}
+{% load staticfiles %}
+
+{% block javascript %}
+  <link rel="stylesheet" href="{% static 'Groups/css/adminTools.css' %}">
+  <script src="{% static 'Groups/js/groupAdminPanel.js' %}"></script>
+{% endblock %}
+
+{% block title %}
+  admin tools
+{% endblock %}
+
+
+
+{% block body_block %}
+  <h1>
+    <a href="{% url 'Groups:groupMemberView' group.pk %}">
+      Back to group
+    </a>
+  </h1>
+
+  <div class=box>
+    If you want to invite more members to your group,
+    copy-paste-send the the following email to them:
+    <div class="small-box">
+      I am inviting you to join my online journal club group <b>{{ group.name }}</b>. <br />
+      To join, go to the following link:<br />
+      <a href="http://{{ request.META.HTTP_HOST }}{% url 'Groups:joinGroupInterface' group.pk %}">{{ request.META.HTTP_HOST }}{% url 'Groups:joinGroupInterface' group.pk %}</a><br />
+      Then, type the following secret key into the prompt:
+      <span class="red"><b>{{ group.password }}</b></span><br />
+      See you soon!
+    </div>
+  </div>
+
+  <div class=box>
+    <b>Group name:</b>
+    <br />
+    {{ group.name }}
+    <br />
+    <a pk="{{group.pk}}" class="edit-link pointer">click to edit</a>
+    <div class="editform" style="display: none;">
+      <form class="note-form" role="form" action="{% url 'Groups:changeGroupName' group.pk %}" method=POST>
+        {% csrf_token %}
+        <textarea name="form_text" rows="1">{{ group.name }}</textarea>
+        <button class="btn btn-primary" type="submit">submit edit</button>
+      </form>
+    </div>
+  </div>
+
+  <div class=box>
+    <b>Invitation secret key:</b>
+    <br />
+    {{ group.password }}
+    <br />
+    <a pk="{{group.pk}}" class="edit-link pointer">click to edit</a>
+    <div class="editform" style="display: none;">
+      <div class="red">
+        Warning: this secret key is public and sent to all members you invite to your group. <br />
+        Do not use a sensitive passphrase (like your email or bank account)
+      </div>
+      <form class="note-form" role="form" action="{% url 'Groups:changeGroupPassword' group.pk %}" method=POST>
+        {% csrf_token %}
+        <textarea name="form_text" rows="1">{{ group.password }}</textarea>
+        <button class="btn btn-primary" type="submit">submit edit</button>
+      </form>
+    </div>
+  </div>
+
+  <div class=box>
+    <b>User permissions:</b>
+    <br />
+    <a pk="{{group.pk}}" class="edit-link pointer">click to edit</a>
+    <div class="editform" style="display: none;">
+      <div class=small-box>
+        {% for user in users %}
+          <div>
+            {{ user.username }}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class=box>
+    <b>Delete group:</b>
+    <div class="red">
+      Warning: this is permanent. Group will be removed from all group members.
+    </div>
+    <a href="{% url 'Groups:deleteGroup' group.pk %}">Click to delete</a>
+  </div>
+
+{% endblock %}

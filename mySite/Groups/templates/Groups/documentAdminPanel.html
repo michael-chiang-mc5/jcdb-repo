@@ -1,0 +1,64 @@
+{% extends "MCBase/base.html" %}
+{% load staticfiles %}
+
+{% block javascript %}
+  <link rel="stylesheet" href="{% static 'Groups/css/adminTools.css' %}">
+  <script src="{% static 'Groups/js/documentAdminPanel.js' %}"></script>
+{% endblock %}
+
+{% block title %}
+  admin tools
+{% endblock %}
+
+
+
+{% block body_block %}
+  <h1>
+    <a href="{% url 'Groups:groupMemberView' document.group.pk %}">
+      Back to group
+    </a>
+  </h1>
+  <div class=box>
+    <b>Paper title:</b>
+    <br />
+    {{ document.getTitle }}
+    <br />
+    <a pk="{{document.pk}}" class="edit-link pointer">click to edit</a>
+    <div class="editform" style="display: none;">
+      <form class="note-form" role="form" action="{% url 'Uploader:editTitle' document.pk %}" method=POST>
+        {% csrf_token %}
+        <textarea name="form_text" rows="1">{{ document.getTitle }}</textarea>
+        <button class="btn btn-primary" type="submit">submit edit</button>
+      </form>
+    </div>
+  </div>
+
+  <div class=box>
+    <b>Notify the group about this paper:</b>
+    <br />
+    <a pk="{{document.pk}}" class="edit-link pointer">click to send notification</a>
+    <div class="editform" style="display: none;">
+      <form class="note-form" role="form" action="{% url 'Groups:sendNotification' document.group.pk %}" method=POST onsubmit="return getContent()">
+        {% csrf_token %}
+        <div id="contenteditable-notification" class="contenteditable" contenteditable="true">
+          Hi all,<br />
+          Check out the new paper:<br />
+          <a href="{% url 'pdfjs:viewer' document.pk %}">{{ document.getTitle }}</a><br>
+          --{{ request.user.username }}
+        </div>
+        <input type="hidden" name="next_url" value="{{ request.path }}" />
+        <textarea id="notification-text" name="form_text" style="display:none"></textarea>
+        <button class="btn btn-primary" type="submit">send notification</button>
+      </form>
+    </div>
+  </div>
+
+  <div class=box>
+    <b>Delete paper:</b>
+    <div class="red">
+      Warning: this is permanent. Paper will be removed from all group members.
+    </div>
+    <a href="{% url 'Groups:deleteDocument' document.pk %}">Click to delete</a>
+  </div>
+
+{% endblock %}
