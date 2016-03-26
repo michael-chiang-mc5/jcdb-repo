@@ -54,7 +54,7 @@ class NoteText(models.Model):
     def __str__(self):
         return self.text
     def getNotetextJson(notetext):
-        obj = {'username':notetext.user.username,
+        obj = {'username':notetext.user.userprofile.getName(),
                 'time':notetext.time.strftime('%m-%d-%Y'), # TODO: switch to age
                 'text':notetext.text,
                 'pk':notetext.pk,
