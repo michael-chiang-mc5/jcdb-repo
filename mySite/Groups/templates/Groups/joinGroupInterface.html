@@ -28,18 +28,20 @@
     </form>
   </div>
 {% else %}
-  You must log in before joining
+  <h1>
+    You must log in with social media before joining.
+  </h1>
   <div class="modal-body">
 
   <div class="row center-text">
-    <a class="socialAuthModal-link" href="/login/google-oauth2/?next={% url 'Groups:joinGroup' group.pk %}">
+    <a class="socialAuthModal-link" href="/login/google-oauth2/?next={% url 'Groups:joinGroupInterface' group.pk %}">
       <img height="150" src="/static/MCBase/images/google-icon.png" alt="Log in with google!">
     </a>
-    <a class="socialAuthModal-link" href="/login/facebook/?next={% url 'Groups:joinGroup' group.pk %}">
+    <a class="socialAuthModal-link" href="/login/facebook/?next={% url 'Groups:joinGroupInterface' group.pk %}">
       <img height="150" src="/static/MCBase/images/facebook-icon.png" alt="Log in with facebook!">
     </a>
 
-    <a class="socialAuthModal-link" href="/login/twitter/?next={% url 'Groups:joinGroup' group.pk %}">
+    <a class="socialAuthModal-link" href="/login/twitter/?next={% url 'Groups:joinGroupInterface' group.pk %}">
       <img height="150" src="/static/MCBase/images/twitter-icon.png" alt="Log in with twitter!">
     </a>
   </div>
