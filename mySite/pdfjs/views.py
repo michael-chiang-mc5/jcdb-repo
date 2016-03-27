@@ -17,17 +17,15 @@ def viewer(request,document_pk):
     return render(request, 'pdfjs/viewer_iframe.html', context)
 
 # View for rendering pdf in iframe #1
-def viewer_raw(request,document_pk):
+def viewer_pdf(request,document_pk):
     document = Document.objects.get(pk=document_pk)
     pdf_url = settings.MEDIA_URL + document.docfile.name
     addnote_url = reverse('pdfjs:addNote')
     dragnote_url = reverse('pdfjs:dragNote')
     resizenote_url = reverse('pdfjs:resizeNote')
-    #getnotesjson_url = reverse('pdfjs:getNotesJson', args=[document_pk]) # deprecate
     notes_json = Note.getNotesJson(document_pk)
-    #context = {'pdf_url':pdf_url,'addnote_url':addnote_url,'getnotesjson_url':getnotesjson_url,'notes_json':notes_json,'document_pk':document_pk}
     context = {'pdf_url':pdf_url,'addnote_url':addnote_url,'dragnote_url':dragnote_url,'resizenote_url':resizenote_url,'notes_json':notes_json,'document_pk':document_pk}
-    return render(request, 'pdfjs/viewer_original.html', context)
+    return render(request, 'pdfjs/viewer_pdf.html', context)
 # View for rendering notes in iframe #2
 def viewer_notes(request,document_pk):
     document = Document.objects.get(pk=document_pk)
