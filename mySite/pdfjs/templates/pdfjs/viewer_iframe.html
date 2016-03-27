@@ -3,7 +3,9 @@
 
 {% block javascript %}
   <link rel="stylesheet" href="{% static 'pdfjs/css/viewer_iframe.css' %}">
-
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
 {% endblock %}
 
 {% block title %}
@@ -19,13 +21,20 @@
 <!-- http://stackoverflow.com/questions/7228708/trigger-from-iframe-to-sibling-iframe -->
 <!-- http://stackoverflow.com/questions/6697364/triggering-a-jquery-event-from-iframe -->
 
-<div class="box1">
-    <iframe style="height: 90%; width: 100%" src="{% url 'pdfjs:viewer_pdf' document_pk %}">
-    </iframe>
-</div>
-<div class="box2">
-    <iframe id="iframe2" style="height: 90%; width: 100%" src="{% url 'pdfjs:viewer_notes' document_pk %}">
-    </iframe></td>
-</div>
+<script>
+  var random_number = new Date().getTime()
+
+  document.write('<div class="box1"> \
+      <iframe style="height: 90%; width: 100%" src="{% url "pdfjs:viewer_pdf" document_pk %}?'+random_number+'"> \
+      </iframe> \
+  </div> \
+  <div class="box2"> \
+      <iframe id="iframe2" style="height: 90%; width: 100%" src="{% url "pdfjs:viewer_notes" document_pk %}?'+random_number+'"> \
+      </iframe></td> \
+  </div>');
+
+</script>
+
+
 
 {% endblock %}
