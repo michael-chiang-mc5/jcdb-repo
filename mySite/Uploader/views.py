@@ -9,9 +9,13 @@ from .models import Document
 from .forms import DocumentForm
 
 def uploadInterface(request,group_pk):
-    context = {"group_pk":group_pk,}
-    return render(request, 'Uploader/uploadInterface.html',context)
+    if request.user.is_authenticated():
+        context = {"group_pk":group_pk,}
+        return render(request, 'Uploader/uploadInterface.html',context)
+    else:
+        return HttpResponseRedirect(reverse('myContent:index'))
 
+# TODO: check to make sure user is in group
 def upload(request):
     # TODO: make sure file is pdf
     if request.method == 'POST' and request.user.is_authenticated():
@@ -24,7 +28,7 @@ def upload(request):
     document.save()
     return HttpResponseRedirect(next_url)
 
-# make sure user is mod or admin
+# TODO: make sure user is mod or original uploader
 def editTitle(request,document_pk):
     if request.method == 'POST' and request.user.is_authenticated():
         form_text = request.POST.get("form_text")

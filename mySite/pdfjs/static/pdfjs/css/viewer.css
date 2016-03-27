@@ -75,10 +75,12 @@
   -webkit-user-select: none;
   -ms-user-select: none;
   -moz-user-select: none;
+  display: none;
 }
 
 .textLayer .endOfContent.active {
   top: 0px;
+  display: none;
 }
 
 
