@@ -6,7 +6,7 @@ class UserProfile(models.Model):
     alias = models.TextField(blank=True,null=True)
 
     def __str__(self):
-        return str(user)
+        return str(self.user)
     def getName(self):
         if self.alias:
             return self.alias
