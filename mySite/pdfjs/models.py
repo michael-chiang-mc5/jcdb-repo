@@ -14,7 +14,7 @@ class Note(models.Model):
     height_normalized = models.FloatField()
 
     def __str__(self):
-        return str(self.page_number)
+        return str(self.pk)
     def addText(self,user,text):
         self.save()
         noteText = NoteText(user=user,text=text,note=self)
