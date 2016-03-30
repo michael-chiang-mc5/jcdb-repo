@@ -1,5 +1,6 @@
 {% extends "MCBase/base.html" %}
 {% load staticfiles %}
+{% load MCBase_templatetags %}
 
 {% block javascript %}
   <link rel="stylesheet" href="{% static 'Groups/css/index.css' %}">
@@ -81,7 +82,13 @@
       {% if notifications %}
         {% for notification in notifications %}
           <div class="small-box">
-            {{ notification.text|safe }}
+            <div class="small-box-footer">
+              {{ notification.time|age }}
+            </div>
+            <hr />
+            <div>
+              {{ notification.text|safe }}
+            </div>
             <div class="small-box-footer">
               <a href="{% url 'UserProfiles:deleteNotification' notification.pk %}">
                 delete
