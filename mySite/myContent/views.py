@@ -16,6 +16,6 @@ def demo(request):
     login(request, user)
     return viewer(request,1)
 
-def logout(request):
+def jcdb_logout(request):
     logout(request)
     return index(request)
