@@ -18,4 +18,4 @@ def demo(request):
 
 def jcdb_logout(request):
     logout(request)
-    return index(request)
+    return HttpResponseRedirect(reverse('myContent:index'))
