@@ -7,9 +7,13 @@ from Uploader.models import Document
 from UserProfiles.models import *
 from django.conf import settings
 import os
+from django.contrib.auth import logout
 
 # If user is logged in, show group manager. Otherwise, show landing page
 def index(request):
+    if request.user.pk==2: # guest
+        logout(request)
+        return HttpResponseRedirect(reverse('Groups:index'))
     if request.user.is_authenticated():
         user = request.user
         # get groups that user is a member of

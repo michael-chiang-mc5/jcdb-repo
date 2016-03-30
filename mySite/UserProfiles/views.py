@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from .models import *
+from django.contrib.auth import logout
 
 def new_user(request):
     user = request.user
@@ -25,6 +26,9 @@ def deleteNotification(request, notification_pk):
     return HttpResponseRedirect(reverse('Groups:index'))
 
 def editProfileInterface(request):
+    if request.user.pk==2: # guest
+        logout(request)
+        return HttpResponseRedirect(reverse('Groups:index'))
     context = {}
     return render(request,'UserProfiles/editProfileInterface.html',context)
 def editAlias(request):
