@@ -29,7 +29,7 @@ def index(request):
         if documents:
             documents = documents.order_by('-time') # newest documents at the top
         # get notifications
-        notifications = Notification.get(user)
+        notifications = Notification.get(user).order_by('-time') # newest notifications at the top
 
         # return html
         context = {'groups':groups,'documents':documents,'notifications':notifications}
@@ -216,10 +216,10 @@ def sendNotification(request,group_pk):
         next_url = request.POST.get("next_url")
     else:
         return HttpResponse("Attempted to make group without authentication or POST")
+    group = Group.objects.get(pk=group_pk)
     if not group.members.filter(pk=request.user.pk).exists() and not request.user.is_superuser:
         return HttpResponseRedirect(reverse('myContent:index'))
     # create group
-    group = Group.objects.get(pk=group_pk)
     users = group.members.all()
     for user in users:
         notification = Notification.constructor(user,form_text)
