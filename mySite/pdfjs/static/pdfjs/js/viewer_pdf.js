@@ -115,6 +115,8 @@ $(document).ready(function() {
     // check if we are clicking on a page
     var closest_page_id = $(e.target).closest(".page").attr("id")
     if(typeof closest_page_id != 'undefined') {
+      // remove all open notes
+      $(".note-submit").remove()
       // Get mouse click coordinates (normalized to page width,height)
       var page = $("#"+closest_page_id)
       var page_number = closest_page_id.substring(13)
@@ -127,7 +129,7 @@ $(document).ready(function() {
       var y_normalized = y/page_height;
       // place note
       div_txt=''+
-              '<div pagenumber="'+page_number+'" class="note-boundary">'+
+              '<div pagenumber="'+page_number+'" class="note-boundary note-submit">'+
                 '<form role="form" class="fill-space" action="'+addnote_url+'" method=POST>'+
                   '<input type="hidden" name="csrfmiddlewaretoken" value="'+csrf_token+'" />'+
                   '<input type="hidden" name="document_pk" value="'+document_pk+'" />'+
