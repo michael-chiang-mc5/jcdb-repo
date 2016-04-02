@@ -19,18 +19,26 @@
     </a>
   </h1>
 
-  <div class=box>
-    If you want to invite more members to your group,
-    copy-paste-send the the following email to them:
-    <div class="small-box">
-      I am inviting you to join my online journal club group <b>{{ group.name }}</b>. <br />
-      To join, go to the following link:<br />
-      <a href="http://{{ request.META.HTTP_HOST }}{% url 'Groups:joinGroupInterface' group.pk %}">{{ request.META.HTTP_HOST }}{% url 'Groups:joinGroupInterface' group.pk %}</a><br />
-      Then, type the following secret key into the prompt:
-      <span class="red"><b>{{ group.password }}</b></span><br />
-      See you soon!
+  {% if group.openForNewMembers %}
+    <div class=box>
+      If you want to invite more members to your group,
+      copy-paste-send the the following email to them:
+      <div class="small-box">
+        I am inviting you to join my online journal club group <b>{{ group.name }}</b>. <br />
+        To join, go to the following link:<br />
+        <a href="http://{{ request.META.HTTP_HOST }}{% url 'Groups:joinGroupInterface' group.pk %}">{{ request.META.HTTP_HOST }}{% url 'Groups:joinGroupInterface' group.pk %}</a><br />
+        Then, type the following secret key into the prompt:
+        <span class="red"><b>{{ group.password }}</b></span><br />
+        See you soon!
+      </div>
     </div>
-  </div>
+  {% else %}
+    <div class=box>
+      If you want to invite more members to your group,
+      first open the group to new members.
+    </div>
+  {% endif %}
+
 
   <div class=box>
     <b>Group name:</b>
@@ -62,6 +70,33 @@
         {% csrf_token %}
         <textarea name="form_text" rows="1">{{ group.password }}</textarea>
         <button class="btn btn-primary" type="submit">submit edit</button>
+      </form>
+    </div>
+  </div>
+
+  <div class=box>
+    <b>Group membership:</b>
+    <br />
+      {% if group.openForNewMembers %}
+        Membership is <b>OPEN</b>
+      {% else %}
+        Membership is <b>CLOSED</b>
+      {% endif %}
+    <br />
+    <a pk="{{group.pk}}" class="edit-link pointer">click to edit</a>
+    <div class="editform" style="display: none;">
+      <form style="margin: 5; padding: 5;" action="{% url 'Groups:changeAcceptingNewMembers' group.pk %}" method="POST">
+        {% csrf_token %}
+        <span>
+          {% if group.openForNewMembers %}
+            <input type="radio" name="membership_option" value="open" checked> open &nbsp; &nbsp; &nbsp;
+            <input type="radio" name="membership_option" value="closed"> closed &nbsp; &nbsp; &nbsp;
+          {% else %}
+            <input type="radio" name="membership_option" value="open"> open &nbsp; &nbsp; &nbsp;
+            <input type="radio" name="membership_option" value="closed" checked> closed &nbsp; &nbsp; &nbsp;
+          {% endif %}
+          <button class="btn-sm btn-primary" type="submit">change</button>
+        </span>
       </form>
     </div>
   </div>

@@ -23,6 +23,9 @@
           {% if incorrect_password %}
             <span style="color: red;">incorrect password</span>
           {% endif %}
+          {% if group_closed %}
+            <span style="color: red;">Group is currently closed to new members.</span>
+          {% endif %}
       </div>
       <button class="btn btn-primary" type="submit">Submit</button>
     </form>

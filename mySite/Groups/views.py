@@ -90,7 +90,10 @@ def joinGroup(request,group_pk):
     password = request.POST.get("password")
     user = request.user
     group = Group.objects.get(pk=group_pk)
-    if group.password == password:
+    if not group.openForNewMembers:
+        context = {'group':group,'group_closed':True}
+        return render(request,'Groups/joinGroupInterface.html',context)
+    elif group.password == password:
         group.members.add(user)
         return HttpResponseRedirect(reverse('Groups:groupMemberView',args=[group_pk]))
     else:
@@ -159,7 +162,26 @@ def changeGroupPassword(request,group_pk):
     return HttpResponseRedirect(reverse('Groups:groupAdminPanel',args=[group.pk]))
 # only admin can open and close membership
 def changeAcceptingNewMembers(request,group_pk):
-    pass
+    # check for user authentication, POST
+    if request.method == 'POST' and request.user.is_authenticated():
+        membership_option = request.POST.get("membership_option")
+    else:
+        return HttpResponse("Attempted to make group without authentication or POST")
+    group = Group.objects.get(pk=group_pk)
+    if not group.admins.filter(pk=request.user.pk).exists() and not request.user.is_superuser:
+        return HttpResponseRedirect(reverse('myContent:index'))
+    # Change permission
+    if membership_option == "open":
+        group.openForNewMembers = True
+        group.save()
+        return HttpResponseRedirect(reverse('Groups:groupAdminPanel',args=[group_pk]))
+    elif membership_option == "closed":
+        group.openForNewMembers = False
+        group.save()
+        return HttpResponseRedirect(reverse('Groups:groupAdminPanel',args=[group_pk]))
+    else:
+        return HttpResponse("Invalid choice of membership_option")
+
 # only admin can change
 def changeUploadApprovalRequired(request,group_pk):
     pass
