@@ -13,6 +13,9 @@ class Note(models.Model):
     width_normalized = models.FloatField()
     height_normalized = models.FloatField()
 
+    class Meta:
+        ordering = ['page_number', 'y_normalized_position']
+
     def __str__(self):
         return str(self.pk)
     def addText(self,user,text):
