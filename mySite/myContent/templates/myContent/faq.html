@@ -1,0 +1,109 @@
+{% extends "MCBase/base.html" %}
+{% load staticfiles %}
+
+{% block javascript %}
+  <link rel="stylesheet" href="{% static 'myContent/css/faq.css' %}">
+{% endblock %}
+
+{% block title %}
+  jcdb
+{% endblock %}
+
+{% block body_block %}
+
+  <div class="box">
+
+  <h1>Frequently asked questions</h1>
+  <div class="vertical-spacer"></div>
+
+    <div class="small-box color-blue">
+      When I log in with social media, google/facebook/twitter tells me that JournalClubDB
+      can view my email address, etc.
+      What are you doing with my information?
+    </div>
+    <div class="small-box">
+      JournalClubDB is committed to protecting your privacy, and we do absolutely
+      nothing with your information. We selected the most minimally intrusive settings
+      when setting up  social authentication  with google/facebook/twitter;
+      their api requires us to be able to see your email / public profile / tweets.
+    </div>
+
+    <div class="vertical-spacer"></div>
+
+    <div class="small-box color-blue">
+      What are the rules at JCDB?
+    </div>
+    <div class="small-box">
+      Don't do anything illegal. This includes obeying copyright law. Anybody you
+      invite into your group can read the corresponding uploaded articles, so make
+      sure you follow Fair Use laws.
+    </div>
+
+    <div class="vertical-spacer"></div>
+
+    <div class="small-box color-blue">
+      What is JournalClubDB's purpose?
+    </div>
+    <div class="small-box">
+      Collaborative pdf annotation. Click here for more info.
+    </div>
+
+    <div class="vertical-spacer"></div>
+
+    <div class="small-box color-blue">
+      Where can I get instructions on how to use JournalClubDB?
+    </div>
+    <div class="small-box">
+      Click <a href="http://www.michael-chiang.com/Blog/#e2">here</a>.
+    </div>
+
+    <div class="vertical-spacer"></div>
+
+    <div class="small-box color-blue">
+      How can I get in contact with the developers?
+    </div>
+    <div class="small-box">
+      Click <a href="http://www.michael-chiang.com/contact/">here</a>. Don't be afraid
+      to email, we're pretty responsive.
+    </div>
+
+    <div class="vertical-spacer"></div>
+
+    <div class="small-box color-blue">
+      Will JournalClubDB become pay-to-use in the future and lock me out of my
+      papers?
+    </div>
+    <div class="small-box">
+      JCDB is free-to-use and we plan for it to remain free. If bandwidth/storage
+      costs become problematic on our end, we might require users host their pdfs
+      off-site or add advertisements.
+    </div>
+
+    <div class="vertical-spacer"></div>
+
+    <div class="small-box color-blue">
+      Who can access the articles that I upload?
+    </div>
+    <div class="small-box">
+      JCDB is designed so that only people who you invite into your group can
+      see the articles you upload. Full disclosure, JCDB is not hardened against
+      attack; please do not upload your top-secret Benghazi emails to our servers.
+    </div>
+
+    <div class="vertical-spacer"></div>
+
+    <div class="small-box color-blue">
+      Can I sue you?
+    </div>
+    <div class="small-box">
+      This service is provided as is and JournalClubDB disclaims all warranties
+      with regard to this service, including all implied warranties of merchantability
+      and fitness. In no event shall JournalClubDB be liable for any special, direct,
+      indirect, or consequetial damages or any damages whatsoever resulting from loss
+      of use, data or profits, whether in action of contract, negligence or tortious
+      action, arising out of or in connetion with the use or performance of this service.
+    </div>
+
+  </div>
+
+{% endblock %}
