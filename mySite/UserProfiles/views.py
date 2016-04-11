@@ -9,7 +9,6 @@ def new_user(request):
     userprofile = UserProfile(user=user,alias=user.username)
     userprofile.save()
     new_notification_text = 'Welcome to journalClubDB. \
-                             You can collaboratively annotate pdfs on this website. \
                              Detailed instructions on how to use jcdb are given \
                              <a href="http://www.michael-chiang.com/Blog/#e2">here</a>. \
                              Feel free to delete this message once you are done by \
