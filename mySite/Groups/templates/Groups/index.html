@@ -62,7 +62,7 @@
           <h1>Papers</h1>
           {% if documents %}
             {% for document in documents %}
-              <div class="small-box">
+              <div class="small-box truncate-box">
                 <a href="{% url 'pdfjs:viewer' document.pk %}">
                   {{ document.getTitle }}
                 </a>

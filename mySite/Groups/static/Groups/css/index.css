@@ -21,6 +21,12 @@
   font-size: 18px;
 }
 
+.truncate-box {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .group-description {
   font-size: 14px;
 }
