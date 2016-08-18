@@ -1,0 +1,135 @@
+{% extends "MCBase/base.html" %}
+{% load staticfiles %}
+
+{% block javascript %}
+  <link rel="stylesheet" href="{% static 'myContent/css/faq.css' %}">
+  <link rel="stylesheet" href="{% static 'myContent/css/instructions.css' %}">
+{% endblock %}
+
+{% block title %}
+  jcdb
+{% endblock %}
+
+{% block body_block %}
+
+  <div class="box content">
+
+    <h1><strong>journalClubDB</strong>: instructions for use</h1>
+    <p>JournalClubDB (<a href="http://www.journalClubDB.com">jcdb</a>) is a website where users can collaboratively annotate pdfs. This&nbsp;blog post contains instructions on how to use the site. JCDB should work on Chrome, Safari, and IE10 but I suggest you use Chrome.</p>
+  </div>
+
+    <div class="box">
+      <h2><strong>Logging in</strong></h2>
+
+      <p>You log into jcdb via social media. On the <a href="http://www.journalClubDB.com/jcdb_logout/">landing page</a>, you will see three buttons.</p>
+
+      <div style="text-align:center">
+      <figure class="image" style="display:inline-block"><a href="http://www.michael-chiang.com/media/jcdb_login.jpg"><img alt="" height="103" src="http://www.michael-chiang.com/media/jcdb_login.jpg" width="150"></a>
+      <figcaption><strong>Figure 1: Log in with social media (red arrow)</strong></figcaption>
+      </figure>
+      </div>
+
+      <p>Click on one of these three buttons to log in with Google, Facebook, or Twitter respectively. You can give yourself an alias later if you don't like your google/facebook/twitter name. If you are already logged into Google/Twitter/Facebook, you may be logged in automatically; in this case, skip this step and proceed directly to the next section <strong>Create a Group</strong>.</p>
+    </div>
+
+    <div class="box">
+
+      <h2><strong>Create a group</strong></h2>
+
+      <p>After you log in, you will be redirected to your Home page (see Figure 2). On your Home page, you will be able to create groups. Once you create a group, you will be able to upload pdfs for collaborative annotation and invite other members.</p>
+
+      <div style="text-align:center">
+      <figure class="image" style="display:inline-block"><a href="/media/jcdb_home.jpg "><img alt="" height="150" src="/media/jcdb_home.jpg " width="271"></a>
+      <figcaption><strong>Figure 2: Create a new group on your Home page (red arrow). You can get back to your home page at any time by clicking "Home" (green arrow).</strong></figcaption>
+      </figure>
+      </div>
+
+      <div style="text-align:center">
+      <figure class="image" style="display:inline-block"><a href="/media/jcdb_createGroup.jpg"><img alt="" height="150" src="/media/jcdb_createGroup.jpg" width="271"></a>
+      <figcaption><strong>Figure 3: Type in a name and secret key</strong></figcaption>
+      </figure>
+      </div>
+
+      <p>To create a group, click on "Create a new group" (Figure 2). You will see the Create Group screen pop up (Figure 3).&nbsp;Type in a name for your group, as well as a "secret key". This secret key will be used by other people to join your group. Needless to say, you should NOT use a sensitive password (like your bank account or email password) as your secret key. Don't worry about remembering your secret key; you will be able to retrieve it later. Note that you can create and join multiple groups if you participate in&nbsp;multiple journal clubs.</p>
+    </div>
+
+
+    <div class="box">
+
+      <h2><strong>Upload a paper</strong></h2>
+
+      <p>Once you create a group, you should be redirected to your Group page (Figure 4). On your group page, you will be able to upload papers (Figure 4, red arrow).</p>
+
+      <div style="text-align:center">
+      <figure class="image" style="display:inline-block"><a href="/media/jcdb_group.jpg"><img alt="" height="150" src="/media/jcdb_group.jpg" width="324"></a>
+      <figcaption><strong>Figure 4: Upload a paper (red arrow) or administrate your group (green arrow). As always, you can go back to your home page by clicking "Home" (blue arrow).</strong></figcaption>
+      </figure>
+      </div>
+
+      <p>If you on the "add new paper" button, you will be shown the Upload Paper interface (Figure 5). Go ahead and upload a pdf.</p>
+
+      <div style="text-align:center">
+      <figure class="image" style="display:inline-block"><a href="/media/jcdb_uploadpdf.jpg"><img alt="" height="141" src="/media/jcdb_uploadpdf.jpg" width="450"></a>
+      <figcaption><strong>Figure 5: Upload a pdf</strong></figcaption>
+      </figure>
+      </div>
+
+      <p>After you upload a pdf, you will be redirected back to the Group page. You should see the PDF you uploaded (Figure 6). If you want to change the pdf name to something easier to remember, go look at the options in&nbsp;"Moderator Tools". You can also notify other group members that you uploaded a new paper in moderator tools.</p>
+
+      <div style="text-align:center">
+      <figure class="image" style="display:inline-block"><a href="/media/jcdb_newpaper.jpg"><img alt="" height="150" src="/media/jcdb_newpaper.jpg" width="370"></a>
+      <figcaption><strong>Figure 6: Click on the paper you uploaded (red arrow) to begin annotation.</strong></figcaption>
+      </figure>
+      </div>
+    </div>
+
+    <div class="box">
+
+      <h2><strong>Annotate your paper</strong></h2>
+
+      <p>Click on the paper you want to annotate on your Group page (see Figure 6). You should be redirected to the annotation interface (Figure 7).</p>
+
+      <div style="text-align:center">
+      <figure class="image" style="display:inline-block"><a href="/media/jcdb_annotate.jpg"><img alt="" height="278" src="/media/jcdb_annotate.jpg" width="400"></a>
+      <figcaption><strong>Figure 7: Double click to create a new note</strong></figcaption>
+      </figure>
+      </div>
+
+      <p>In the annotation interface, double click anywhere to create a new note. You can reply to existing notes on the right panel, by clicking the "reply" button (red arrow). You can see which notes correspond to which replies by clicking the "zoom" buttons (blue and green arrows, respectively).</p>
+    </div>
+
+
+    <div class="box">
+      <h2><strong>Invite other users to your group</strong></h2>
+
+      <p>Go to the group page and click on "Administration&nbsp;Tools" (See <a href="/media/jcdb_group.jpg">Figure 4</a>, green arrow). You will be brought to the Group Administration Page (Figure 8).</p>
+
+      <div style="text-align:center">
+      <figure class="image" style="display:inline-block"><a href="/media/jcdb_invite.jpg"><img alt="" height="150" src="/media/jcdb_invite.jpg" width="253"></a>
+      <figcaption><strong>Figure 8</strong></figcaption>
+      </figure>
+      </div>
+
+      <p>Here, you will see a message (red box, Figure 8) that contains a link and secret key that users an use to join your group. Copy-paste and email this message to people you want to join your group.</p>
+    </div>
+
+    <div class="box">
+
+      <h2><strong>Conclusion</strong></h2>
+
+      <p>You should now be able to:</p>
+
+      <ol>
+      	<li>Log into JCDB</li>
+      	<li>Create a group</li>
+      	<li>Upload a paper</li>
+      	<li>Annotate the paper</li>
+      	<li>Invite members into your group</li>
+      </ol>
+
+      <p>Hopefully, that should be enough to get you started. If you have questions, feel free to <a href="http://www.michael-chiang.com/contact/">email</a> me. Good luck!</p>
+    </div>
+
+
+
+{% endblock %}

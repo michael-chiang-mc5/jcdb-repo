@@ -28,3 +28,7 @@ def faq(request):
     else:
         context = {}
         return render(request, 'myContent/faq.html', context)
+
+def instructions(request):
+    context = {}
+    return render(request, 'myContent/instructions.html', context)
