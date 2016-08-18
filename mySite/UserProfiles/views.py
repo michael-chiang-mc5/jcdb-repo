@@ -10,7 +10,7 @@ def new_user(request):
     userprofile.save()
     new_notification_text = 'Welcome to journalClubDB. \
                              Detailed instructions on how to use jcdb are given \
-                             <a href="http://www.michael-chiang.com/Blog/#e2">here</a>. \
+                             <a href="http://www.journalClubDB.com/instructions/">here</a>. \
                              Feel free to delete this message once you are done by \
                              clicking "delete" below.\
                             ';
